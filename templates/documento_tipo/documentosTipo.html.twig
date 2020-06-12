@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tipo de documentos{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+<div class="">
+    <div id="">
+    {{ form_start(formularioBusqueda, {'enctype':'multipart/form-data'})}}
+
+    {{ form_end(formularioBusqueda) }}
+    </div>
+    
+    <button class="btn btn-primary" id="botonTipoDocumento">Nuevo tipo de documento</button>
+    <div id="divFormTipoDocumento">
+    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+
+    {{ form_end(formulario) }}
+    </div>
+    
+    {% for documento in documentos %}
+        <div>
+            <h2>{{documento.nombre}}</h2>
+            <a href="{{ path('modificarDocumentoTipo', {'id': documento.id}) }}">Modificar</a>
+            <a href="{{ path('eliminarDocumentoTipo', {'id': documento.id}) }}">Eliminar</a>
+        </div>
+        
+    {% endfor %}
+    
+</div>
+{% endblock %}

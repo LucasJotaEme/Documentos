@@ -24,4 +24,4 @@ security:
             # switch_user: true
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/user, roles: ROLE_USER }
+         - { path: ^/editor, roles: ROLE_EDITOR }

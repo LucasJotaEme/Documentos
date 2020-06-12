@@ -38,18 +38,27 @@ class FuncionesController extends AbstractController
             }
         }
         
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('documentos');
     }
     
     /**
-     * @Route("/", name="index")
+     * @Route("/back", name="backIntranet")
      */
-    public function index()
+    public function backIntranet()
     {
-        return $this->render('funciones/index.html.twig', [
-            'controller_name' => 'FuncionesController',
-        ]);
+        $user = $this->getUser();
+        
+        if ($user != null){
+            $url= "http://localhost/Intranet/public/index.php/login/" . $user->getEmail();    
+        }else{
+            $url= "http://localhost/Intranet/public/index.php/login/";    
+        }
+        
+        return $this->redirect($url);
     }
+    
+    
+ 
     
     public function getFechActual(){
         $fechaActual=  new \DateTime();

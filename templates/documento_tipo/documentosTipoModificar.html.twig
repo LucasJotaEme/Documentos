@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tipo de documentos{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+<div class="">
+    
+    
+    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+
+    {{ form_end(formulario) }}
+    
+</div>
+{% endblock %}

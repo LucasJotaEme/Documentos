@@ -2,11 +2,64 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Documentos - UNRaf{% endblock %}</title>
+        {% block stylesheets %}
+            
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link href="{{ asset("css/estilo.css") }}" rel="stylesheet" type="text/css">
+            <link rel="icon" href="{{ asset("img/iconoUnraf.png") }}">
+        {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <body> 
+    {% block body %}
+        <nav class="navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            {# Este div es para dejar centrado Los botones #}
+            <a class="navbar-brand" href="{{path('documentos')}}">Home <b style="color:#4a8a91">Documentos</b></a>
+        </div>
+        <div class="mx-auto order-0 ">
+            <ul class="navbar-nav ml-auto">
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Documentos
+                    </a>
+                    <div class="dropdown-menu itemMenu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="formMenu dropdown-item" href="{{ path('nuevoDocumento') }}">Crear uno nuevo</a>
+                    </div>
+                </li>
+                
+                {% endif %}
+            </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('backIntranet') }}"> Volver a Intranet
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </nav>
+        <a class="float-right" style="text-align:right;" href="{{ path('documentosTipo')}}">Tipos de documentos</a>
+                
+        
+        
+    {% endblock %}
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js">
+            {#<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <script src="{{ asset("js/comportamientos.js") }}"></script>
+            <script src="{{ asset("js/accionesDinamicas.js") }}"></script>
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        {% endblock %}
     </body>
 </html>
