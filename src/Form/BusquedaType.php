@@ -16,7 +16,8 @@ class BusquedaType extends AbstractType
     {
         $builder
             ->add('buscar',TextType::class,array("required"=>false))
-            ->add('ordenarPor',ChoiceType::class,['choices' =>[
+            ->add('filtrarPor',ChoiceType::class,['choices' =>[
+                'Todos'=>3,
                 'Últimos publicados'=>2,
                 'Más vistos'=>1,
                 'Obsoletos'=>0],

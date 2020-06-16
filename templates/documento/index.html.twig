@@ -9,21 +9,60 @@
 </style>
 
 {{ parent() }}
+{{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+<div style="background-color:#F0F0F0;">
+    <div  class="row">
 
-<div>
-    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-    
-    {{ form_end(formulario) }}
-</div>
-<div class="">
-    <a href="{{path('documentosObsoletos')}}">Documentos obsoletos</a>
-    {% for documento in documentos %}
-        <div>
-            <h2>{{documento.numero}}</h2>
-            <a href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
-            <a href="{{ path('eliminarDocumento', {'id': documento.id}) }}">Eliminar</a>
+        <div class="col-lg-6 col-md-6 col-sm-12 espaciado">
+            {{ form_label(formulario.buscar) }}<br>
+            {{ form_widget(formulario.buscar, {attr: {class: 'ancho',placeholder: 'Escriba el número del documento..'} }) }}  
         </div>
-        
-    {% endfor %}
+        <div class="col-lg-6 col-md-6 col-sm-12 espaciado ">
+            {{ form_label(formulario.filtrarPor) }}<br>
+            {{ form_widget(formulario.filtrarPor, {attr: {class: 'ancho'} }) }}  
+        </div>
+    </div>
+    <div class="center">
+    {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-success botonBuscar'} }) }}  
+    </div>
+         {{ form_end(formulario) }}
+</div>
+<br>
+<h4 style="text-align:center;">Resultados</h4>
+<br>
+
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">N° documento</th>
+            <th scope="col">Año</th>
+            <th scope="col">Fecha publicación</th>
+            <th scope="col">Fecha caducidad</th>
+            <th scope="col">Título</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for documento in documentos %}
+            <tr>
+                <th scope="row">{{ documento.numero }}</th>
+                <td>{{ documento.anio }}</td>
+                <td>{{ documento.fechaPublicacion|date('d/m/Y h:m') }}</td>
+                <td>{{ documento.fechaCaducidad|date('d/m/Y h:m') }}</td>
+                <td>{{ documento.titulo }}</td>
+                <td>{{ documento.descripcion }}</td>
+                <td>
+                    <a class="btn btn-success" href="{{ asset('uploads/'~ documento.path) }}">{{ documento.path}}</a>
+                    <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
+                    <a class="btn btn-danger" href="{{ path('eliminarDocumento', {'id': documento.id}) }}">Eliminar</a>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
 </div>
 {% endblock %}

@@ -61,6 +61,16 @@ class Documento
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $estado;
+    
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $path;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $vistos;
 
     public function getId(): ?int
     {
@@ -174,4 +184,28 @@ class Documento
 
         return $this;
     }
+    
+    function getPath() {
+        return $this->path;
+    }
+
+    function setPath($path): self {
+        $this->path = $path;
+        
+        return $this;
+    }
+
+    public function getVistos(): ?int
+    {
+        return $this->vistos;
+    }
+
+    public function setVistos(?int $vistos): self
+    {
+        $this->vistos = $vistos;
+
+        return $this;
+    }
+
+
 }

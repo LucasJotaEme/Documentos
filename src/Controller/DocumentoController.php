@@ -55,11 +55,11 @@ class DocumentoController extends AbstractController
     public function buscarDocumento(Busqueda $busqueda){
         
 
-        if ($busqueda->getOrdenarPor() == 2) { // Consulta por ultimos documentos publicados
+        if ($busqueda->getFiltrarPor() == 2) { // Consulta por ultimos documentos publicados
             
             return $this->getConsultaUltimosPublicados($busqueda);
             
-        }else if ($busqueda->getOrdenarPor() == 1){//Consulta por los más vistos
+        }else if ($busqueda->getFiltrarPor() == 1){//Consulta por los más vistos
             
             return $this->getConsultaMasVistos($busqueda);
             
@@ -163,6 +163,16 @@ class DocumentoController extends AbstractController
         return $this->render('documento/nuevoDocumento.html.twig', [
             'formulario' => $formulario->createView()
         ]);
+    }
+    
+    /**
+     * @Route("/verDocumento/{id}/", name="verDocumento")
+     */
+    public function verDocumentos(Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $documentos= $em->getRepository(Documento::class)->findBy(['compraId'=>$id]);
+        return $this->render('controlador_licitaciones/verDocumentos.html.twig',
+            array('documentos'=>$documentos));
     }
     
     /**

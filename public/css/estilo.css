@@ -1,0 +1,24 @@
+.ancho{
+    width: 350px;
+    
+}
+
+.espaciado{
+    padding-left: 200px;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.botonBuscar{
+    width: 200px;
+}
+
+.acortadoInput{
+    width:600px;
+}
+
