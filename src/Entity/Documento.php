@@ -28,12 +28,12 @@ class Documento
     private $anio;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $fechaPublicacion;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $fechaCaducidad;
 
@@ -71,6 +71,11 @@ class Documento
      * @ORM\Column(type="integer", nullable=true)
      */
     private $vistos;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DocumentoTipo::class, cascade={"persist", "remove"})
+     */
+    private $documentoTipo;
 
     public function getId(): ?int
     {
@@ -203,6 +208,18 @@ class Documento
     public function setVistos(?int $vistos): self
     {
         $this->vistos = $vistos;
+
+        return $this;
+    }
+
+    public function getDocumentoTipo(): ?DocumentoTipo
+    {
+        return $this->documentoTipo;
+    }
+
+    public function setDocumentoTipo(?DocumentoTipo $documentoTipo): self
+    {
+        $this->documentoTipo = $documentoTipo;
 
         return $this;
     }

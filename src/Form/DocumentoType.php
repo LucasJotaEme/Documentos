@@ -9,21 +9,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\DocumentoTipo;
 
 class DocumentoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('documentoTipo', EntityType::class, [
+                'class' => DocumentoTipo::class,
+                'choice_label' => 'nombre',])
             ->add('numero', TextType::class)
             ->add('anio')
             ->add('fechaPublicacion')
             ->add('fechaCaducidad')
             ->add('numeroVersion')
-            ->add('palabrasClaves',TextType::class)
+            //->add('palabrasClaves')
             ->add('titulo')
             ->add('descripcion')
-            ->add('path',FileType::class,['required'=>false,'multiple'=>true])
+            ->add('path',FileType::class,['required'=>true,'multiple'=>false])
             ->add('Aceptar',SubmitType::class)
         ;
         
