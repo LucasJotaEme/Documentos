@@ -35,8 +35,6 @@ class DocumentoController extends AbstractController
             'documentos' => $documentos,'formulario' => $form->createView()
         ]);
         }
-        
-        
     }
     
     public function buscarDocumento(Busqueda $busqueda){
@@ -50,9 +48,11 @@ class DocumentoController extends AbstractController
             
             return $this->getConsultaMasVistos($busqueda);
             
-        }else{ //Consulta por obsoletos
+        }else if ($busqueda->getFiltrarPor() == 0){ //Consulta por obsoletos
             
             return $this->getConsultaObsoletos($busqueda);
+        }else{
+            return $this->getConsultaTodos($busqueda);
         }
     }
     
@@ -69,6 +69,20 @@ class DocumentoController extends AbstractController
         return $this->render('documento/index.html.twig', [
             'documentos' => $documentos,
         ]);
+    }
+
+    /**
+     * @Route("/verPDF/{id}", name="verPDF")
+     */
+    public function verPDF(Request $request,$id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $documento= $entityManager->getRepository(Documento::class)->find($id);
+        $documento->setVistos($documento->getVistos()+1);
+        $entityManager->flush($documento);
+        
+        return $this->redirect("http://localhost/Documentos/public/uploads/".$documento->getPath());
     }
     
     /**
@@ -89,12 +103,17 @@ class DocumentoController extends AbstractController
 
         $formulario = $this->createForm(DocumentoType::class,$documento);
         $formulario->handleRequest($request);
-        
+        $documento = $formulario->getData();
         if ($formulario->isSubmitted() && $this->validarDocumento($documento)){
-            
+
+            $extensionArchivo=$documento->getPath()->guessExtension();
+            $nombreArchivo= time().".".$extensionArchivo;
+            $documento->getPath()->move("uploads",$nombreArchivo);
+            $documento->setPath($nombreArchivo);
+
             $entityManager = $this->getDoctrine()->getManager();
-            $documento = $formulario->getData();
             $documento->setEstado('Alta');
+            $documento->setVistos(0);
             $entityManager->persist($documento);
             $entityManager->flush();
             return $this->index($request);
@@ -109,35 +128,25 @@ class DocumentoController extends AbstractController
 
     public function validarDocumento($documento){
         $fechaActual=  new \DateTime();
-        $fechaActual->modify("-3 hours");
+        $fechaActual->modify("3 hours");
         if ($documento->getNumero() <= 0) {
             $this->addFlash('error', 'El campo número no puede ser 0.');
             return false;
-        } else if ($documento->getAnio() < $this->getAnioActual() )  {
-            $this->addFlash('error', 'El año no es válido, debe ser mayor al actual');
+        } else if ($documento->getAnio() < $this->getAnioActual() || $documento->getAnio()>($this->getAnioActual()+1) )  {
+            $this->addFlash('error', 'El año no es válido');
             return false;
-        } else if ($documento->getFechaPublicacion()<$fechaActual ) {
-            $this->addFlash('error', 'La fecha de publicación no es válida.');
+        } else if (!$documento->getFechaPublicacion()>=$fechaActual ) {
+            $this->addFlash('error', 'La fecha de publicación no es válida.' .$fechaActual);
             return false;
         }else if ($documento->getFechaPublicacion()>$documento->getFechaCaducidad()){
             $this->addFlash('error', 'Fecha de caducidad es menor a fecha de publicación.');
             return false;
-        }else if (strlen($documento->setTitulo())<20){
+        }else if (strlen($documento->getTitulo()) <20){
             $this->addFlash('error', 'La cantidad de caracteres de campo título no es válida.');
             return false;
         }else {
             return true;
         }
-    }
-    
-    /**
-     * @Route("/verDocumento/{id}/", name="verDocumento")
-     */
-    public function verDocumentos(Request $request,$id){
-        $em = $this->getDoctrine()->getManager();
-        $documentos= $em->getRepository(Documento::class)->findBy(['compraId'=>$id]);
-        return $this->render('controlador_licitaciones/verDocumentos.html.twig',
-            array('documentos'=>$documentos));
     }
     
     /**
@@ -205,8 +214,8 @@ class DocumentoController extends AbstractController
         $query = $manager->createQuery(
         "SELECT c
         FROM App\Entity\Documento c
-        WHERE c.numero LIKE :numero AND c.estado == 'Alta'
-        ORDER BY c.id DESC
+        WHERE c.numero LIKE :numero AND c.estado = 'Alta'
+        ORDER BY c.vistos DESC
         "
         )->setParameter('numero','%'. $busqueda->getBuscar().'%');
         
@@ -225,6 +234,25 @@ class DocumentoController extends AbstractController
         "SELECT c
         FROM App\Entity\Documento c
         WHERE c.numero LIKE :numero AND c.estado = 'Baja'
+        ORDER BY c.id DESC
+        "
+        )->setParameter('numero','%'. $busqueda->getBuscar().'%');
+        
+        //Límite de resultados..
+        $query->setMaxResults(100);
+        
+        //Retorna busqueda de la compra..
+        return $query->getResult();
+    }
+
+    public function getConsultaTodos($busqueda){
+        
+        $manager=$this->getDoctrine()->getManager();
+        
+        $query = $manager->createQuery(
+        "SELECT c
+        FROM App\Entity\Documento c
+        WHERE c.numero LIKE :numero
         ORDER BY c.id DESC
         "
         )->setParameter('numero','%'. $busqueda->getBuscar().'%');

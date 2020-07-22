@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\DocumentoTipo;
 
@@ -27,7 +28,7 @@ class DocumentoType extends AbstractType
             ->add('numeroVersion')
             //->add('palabrasClaves')
             ->add('titulo')
-            ->add('descripcion')
+            ->add('descripcion', TextType::class)
             ->add('path',FileType::class,['required'=>true,'multiple'=>false])
             ->add('Aceptar',SubmitType::class)
         ;
