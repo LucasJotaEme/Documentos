@@ -5,6 +5,24 @@
 {% block body %}
 
 {{ parent() }}
+{# Modal de novedades #}
+<div class="modal fade" id="ventanaModal">
+    <div class="modal-dialog">
+        <div class="modal-content scroll">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Seguro que desea cancelar? Perderá los datos completados</h5>
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary container" style="text-align:center;" data-dismiss="modal">Cerrar</button>
+                <a href="{{path('documentos')}}" class="btn btn-success container" style="text-align:center">Aceptar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
 <div style="" class="container ">
     <div class="container-fluid">
         <h3>Documentos>>Nuevo documento</h3>
@@ -134,7 +152,7 @@
     </div>
     <div class="row center">
         <div class="col-sm-6">
-            <a href="ventanaAviso" class="ancho btn btn-primary">Cancelar</a>
+            <a href="#ventanaModal" data-toggle="modal" style="background-color:#516878;color:white;" class="btn ancho" >Ver novedades</a>
         </div>
 
         <div class="col-sm-6">

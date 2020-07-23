@@ -97,6 +97,7 @@ class DocumentoController extends AbstractController
 
         $documento = new Documento();
         $documento->setNumeroVersion(1);
+
         $documento->setFechaPublicacion($fechaActual);
         $documento->setFechaCaducidad($fechaActual);
 
@@ -114,9 +115,13 @@ class DocumentoController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $documento->setEstado('Alta');
             $documento->setVistos(0);
+            $documento->setFechaCreacion($fechaActual);
+            $documento->setUser($this->getUser());
             $entityManager->persist($documento);
             $entityManager->flush();
-            return $this->index($request);
+            $this->crearLog($documento);
+            return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
+            .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo());
         }
         else{
 
@@ -124,6 +129,25 @@ class DocumentoController extends AbstractController
                 'formulario' => $formulario->createView()
             ]);
         }
+    }
+
+    private function crearLog($documento){
+        $fp = fopen("uploads/logs/".$this->getFechActualString()."-iduser=".($this->getUser())->getId(), "x+");
+        $texto="";
+        $texto.="------------------".$this->getFechActualString()."------------------\n";
+        $texto.="Usuario:".$this->getUser()->getEmail()."\n";
+        $texto.="Se creó el documento ".$documento->getNumero()." en el año ".$documento->getAnio()."\n";
+        $texto.="Título: ".$documento->getTitulo()." en la versión ".$documento->getNumeroVersion()."\n";
+        $texto.="Título: ".$documento->getTitulo()." en la versión ".$documento->getNumeroVersion()."\n";
+        $texto.="Tipo de documento: ".$documento->getDocumentoTipo()->getNombre()."\n";
+        $texto.="Fecha de publicación: ".$documento->getFechaPublicacion()->format("d-m-Y")."\n";
+        $texto.="Fecha de caducidad: ".$documento->getFechaPublicacion()->format("d-m-Y")."\n";
+        $texto.="--------------------FIN--------------------";
+        if ($fp != 0){
+            fwrite($fp, $texto);
+        }
+
+        fclose($fp);
     }
 
     public function validarDocumento($documento){
@@ -275,6 +299,15 @@ class DocumentoController extends AbstractController
         $fechaActual->modify("-3 hours");
         
         return $fechaActual;
+    }
+
+    public function getFechActualString(){
+        $fechaActual=  new \DateTime();
+        
+        //Se le resta 3 horas a la fecha para que sea correcta a la actual. Desconozco el motivo
+        $fechaActual->modify("-3 hours");
+        $fecha = $fechaActual->format('Y-m-d-H-i-s');
+        return $fecha;
     }
 
     public function getAnioActual(){

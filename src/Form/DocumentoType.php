@@ -29,7 +29,7 @@ class DocumentoType extends AbstractType
             ->add('numeroVersion')
             //->add('palabrasClaves')
             ->add('titulo')
-            ->add('descripcion', TextType::class)
+            ->add('descripcion')
             ->add('path',FileType::class,['required'=>true,'multiple'=>false, 'data_class' => null])
             ->add('perfil', ChoiceType::class, [
                 'choices'  => [

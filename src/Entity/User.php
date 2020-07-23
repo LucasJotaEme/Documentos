@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,6 +39,16 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity=Documento::class, mappedBy="user")
+     */
+    private $documento;
+
+    public function __construct()
+    {
+        $this->documento = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,5 +142,36 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Documento[]
+     */
+    public function getDocumento(): Collection
+    {
+        return $this->documento;
+    }
+
+    public function addDocumento(Documento $documento): self
+    {
+        if (!$this->documento->contains($documento)) {
+            $this->documento[] = $documento;
+            $documento->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocumento(Documento $documento): self
+    {
+        if ($this->documento->contains($documento)) {
+            $this->documento->removeElement($documento);
+            // set the owning side to null (unless already changed)
+            if ($documento->getUser() === $this) {
+                $documento->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

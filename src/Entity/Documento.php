@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DocumentoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,11 +55,6 @@ class Documento
     private $titulo;
 
     /**
-     * @ORM\Column(type="string", length=400, nullable=true)
-     */
-    private $descripcion;
-
-    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $estado;
@@ -86,6 +83,26 @@ class Documento
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $publico;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documento")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $fechaCreacion;
+
+    /**
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    private $descripcion;
+
+    public function __construct()
+    {
+        $this->usuario = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -176,17 +193,6 @@ class Documento
         return $this;
     }
 
-    public function getDescripcion(): ?string
-    {
-        return $this->descripcion;
-    }
-
-    public function setDescripcion(?string $descripcion): self
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
 
     public function getEstado(): ?string
     {
@@ -254,6 +260,42 @@ class Documento
     public function setPublico(?bool $publico): self
     {
         $this->publico = $publico;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getFechaCreacion(): ?\DateTimeInterface
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function setFechaCreacion(?\DateTimeInterface $fechaCreacion): self
+    {
+        $this->fechaCreacion = $fechaCreacion;
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): self
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }
