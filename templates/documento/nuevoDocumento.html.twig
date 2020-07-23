@@ -93,6 +93,7 @@
             </div>
             <div class="col-sm-10">
                 {{ form_widget(formulario.titulo, {attr: {class: 'form-control acortadoInput' , placeholder: 'Escriba el título..'} }) }}  
+                <p style="color:grey;">ADVERTENCIA: Mínimo 20 caractéres.</p>
             </div>
     </div>
      
@@ -110,12 +111,35 @@
                 <h5>Documento PDF:</h5>
             </div>
             <div class="col-sm-10">
-                {{ form_widget(formulario.path, {attr: {class: 'acortadoInput'} }) }}  
+                {{ form_widget(formulario.path, {attr: {accept:'application/pdf,.doc,.docx',class: 'acortadoInput form-control'} })}}
             </div>
     </div>
     
-    <div class="center">
-    {{ form_widget(formulario.Aceptar, {attr: {class: 'ancho btn btn-success'} }) }}  
+    <div style="margin-top: 20px;" class="form-group row">
+            <div class="col-sm-2 col-form-label">
+                <h5>Permiso de acceso:</h5>
+            </div>
+            <div class="col-sm-10">
+                {{ form_widget(formulario.perfil, {attr: {class: 'form-control acortadoInput'} }) }}  
+            </div>
+    </div>
+
+    <div style="margin-top: 20px;" class="form-group row">
+            <div class="col-sm-2 col-form-label">
+                <h5>Publicar en Intranet:</h5>
+            </div>
+            <div class="col-sm-6">
+                {{ form_widget(formulario.publico, {attr: {class: 'form-control'} }) }}  
+            </div>
+    </div>
+    <div class="row center">
+        <div class="col-sm-6">
+            <a href="ventanaAviso" class="ancho btn btn-primary">Cancelar</a>
+        </div>
+
+        <div class="col-sm-6">
+        {{ form_widget(formulario.Aceptar, {attr: {class: 'ancho btn btn-success'} }) }}  
+        </div>
     </div>
             
     {{ form_end(formulario) }}

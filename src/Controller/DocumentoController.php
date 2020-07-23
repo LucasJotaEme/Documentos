@@ -157,14 +157,16 @@ class DocumentoController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         
         $documento = $entityManager->getRepository(Documento::class)->find($id);
-        
+        $documento->setNumeroVersion($documento->getNumeroVersion()+1);
         $formulario = $this->createForm(DocumentoType::class,$documento);
         $formulario->handleRequest($request);
         
         if ($formulario->isSubmitted()){
+
+
             $documento = $formulario->getData();
             
-            $entityManager->persist($documento);
+            $entityManager->flush($documento);
             return $this->index($request);
         }
         return $this->render('documento/nuevoDocumento.html.twig', [

@@ -48,7 +48,7 @@ class Documento
     private $palabrasClaves = [];
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $titulo;
 
@@ -63,7 +63,7 @@ class Documento
     private $estado;
     
     /**
-     * @ORM\Column(type="string", length=20, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $path;
 
@@ -73,9 +73,19 @@ class Documento
     private $vistos;
 
     /**
-     * @ORM\OneToOne(targetEntity=DocumentoTipo::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=DocumentoTipo::class, inversedBy="Documento")
      */
     private $documentoTipo;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $perfil;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $publico;
 
     public function getId(): ?int
     {
@@ -223,6 +233,32 @@ class Documento
 
         return $this;
     }
+
+    public function getPerfil(): ?string
+    {
+        return $this->perfil;
+    }
+
+    public function setPerfil(?string $perfil): self
+    {
+        $this->perfil = $perfil;
+
+        return $this;
+    }
+
+    public function getPublico(): ?bool
+    {
+        return $this->publico;
+    }
+
+    public function setPublico(?bool $publico): self
+    {
+        $this->publico = $publico;
+
+        return $this;
+    }
+
+    
 
 
 }

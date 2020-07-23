@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DocumentoTipoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,21 @@ class DocumentoTipo
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $estado;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Documento::class, inversedBy="documentoTipo")
+     */
+    private $documento;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Documento::class, mappedBy="documentoTipo")
+     */
+    private $Documento;
+
+    public function __construct()
+    {
+        $this->Documento = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +86,41 @@ class DocumentoTipo
     public function setEstado(?string $estado): self
     {
         $this->estado = $estado;
+
+        return $this;
+    }
+
+    public function getDocumento(): ?Documento
+    {
+        return $this->documento;
+    }
+
+    public function setDocumento(?Documento $documento): self
+    {
+        $this->documento = $documento;
+
+        return $this;
+    }
+
+    public function addDocumento(Documento $documento): self
+    {
+        if (!$this->Documento->contains($documento)) {
+            $this->Documento[] = $documento;
+            $documento->setDocumentoTipo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocumento(Documento $documento): self
+    {
+        if ($this->Documento->contains($documento)) {
+            $this->Documento->removeElement($documento);
+            // set the owning side to null (unless already changed)
+            if ($documento->getDocumentoTipo() === $this) {
+                $documento->setDocumentoTipo(null);
+            }
+        }
 
         return $this;
     }

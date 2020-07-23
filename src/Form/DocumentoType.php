@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\DocumentoTipo;
 
 class DocumentoType extends AbstractType
@@ -29,7 +30,15 @@ class DocumentoType extends AbstractType
             //->add('palabrasClaves')
             ->add('titulo')
             ->add('descripcion', TextType::class)
-            ->add('path',FileType::class,['required'=>true,'multiple'=>false])
+            ->add('path',FileType::class,['required'=>true,'multiple'=>false, 'data_class' => null])
+            ->add('perfil', ChoiceType::class, [
+                'choices'  => [
+                    'Usuario' => null,
+                    'Editor' => true,
+                    'Administrador' => false,
+                ],
+            ])
+            ->add('publico')
             ->add('Aceptar',SubmitType::class)
         ;
         
