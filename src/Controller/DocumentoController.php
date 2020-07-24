@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Documento;
 use App\Entity\Busqueda;
+use App\Entity\PalabraClave;
 use App\Form\BusquedaType;
 use App\Form\DocumentoType;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,7 +91,8 @@ class DocumentoController extends AbstractController
      */
     public function nuevoDocumento(Request $request)
     {
-
+        $entityManager = $this->getDoctrine()->getManager();
+        
         $fechaActual=  new \DateTime();
         $fechaActual->modify("-3 hours");
 
@@ -103,8 +105,10 @@ class DocumentoController extends AbstractController
 
 
         $formulario = $this->createForm(DocumentoType::class,$documento);
+        $palabrasBD= $entityManager->getRepository(PalabraClave::class)->findAll();
         $formulario->handleRequest($request);
         $documento = $formulario->getData();
+
         if ($formulario->isSubmitted() && $this->validarDocumento($documento)){
 
             $extensionArchivo=$documento->getPath()->guessExtension();
@@ -112,7 +116,10 @@ class DocumentoController extends AbstractController
             $documento->getPath()->move("uploads",$nombreArchivo);
             $documento->setPath($nombreArchivo);
 
-            $entityManager = $this->getDoctrine()->getManager();
+            
+
+            $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
+
             $documento->setEstado('Alta');
             $documento->setVistos(0);
             $documento->setFechaCreacion($fechaActual);
@@ -291,6 +298,22 @@ class DocumentoController extends AbstractController
     }
 
     //--------------------------- FUNCIONES --------------------------------------------
+
+    public function testPalabrasClaves($palabrasClaves,$palabrasBD){
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $arrayPalabrasClaves= preg_split("~;~", $palabrasClaves);
+
+        foreach ($arrayPalabrasClaves as $palabra){
+            if (!in_array($palabra, $palabrasBD)) {
+                $clasPalabra= new PalabraClave();
+                $clasPalabra->setNombre($palabra);
+                $entityManager->persist($clasPalabra);
+            }
+            $entityManager->flush();
+        }
+    }
 
     public function getFechActual(){
         $fechaActual=  new \DateTime();

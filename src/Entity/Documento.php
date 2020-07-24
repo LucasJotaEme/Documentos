@@ -99,9 +99,16 @@ class Documento
      */
     private $descripcion;
 
+    /**
+     * @ORM\Column(type="string", length=400, nullable=true)
+     */
+    private $palabraClave;
+
+
     public function __construct()
     {
         $this->usuario = new ArrayCollection();
+        $this->palabraClave = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -296,6 +303,18 @@ class Documento
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function getPalabraClave(): ?string
+    {
+        return $this->palabraClave;
+    }
+
+    public function setPalabraClave(?string $palabraClave): self
+    {
+        $this->palabraClave = $palabraClave;
 
         return $this;
     }

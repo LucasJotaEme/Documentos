@@ -27,7 +27,7 @@ class DocumentoType extends AbstractType
             ->add('fechaPublicacion')
             ->add('fechaCaducidad')
             ->add('numeroVersion')
-            //->add('palabrasClaves')
+            ->add('palabraClave', TextType::class)
             ->add('titulo')
             ->add('descripcion')
             ->add('path',FileType::class,['required'=>true,'multiple'=>false, 'data_class' => null])
