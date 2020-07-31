@@ -49,9 +49,9 @@ class FuncionesController extends AbstractController
         $user = $this->getUser();
         
         if ($user != null){
-            $url= "http://localhost/Intranet/public/index.php/login/" . $user->getEmail();    
+            $url= "http://intranet.unraf.edu.ar/Intranet/public/index.php/login/" . $user->getEmail();    
         }else{
-            $url= "http://localhost/Intranet/public/index.php/login/";    
+            $url= "http://intranet.unraf.edu.ar/Intranet/public/index.php/login/";    
         }
         
         return $this->redirect($url);
