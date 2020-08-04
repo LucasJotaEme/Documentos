@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Documentos - UNRaf{% endblock %}</title>
-        <link href="{{ asset("css/estiloBase.css") }}" rel="stylesheet" type="text/css">
         {% block stylesheets %}
             
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -16,45 +15,39 @@
     </head>
     <body> 
     {% block body %}
-    <div style="margin-top:70px;">
-        <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-light bg-light">
-            <span class="navbar-toggler-icon leftmenutrigger"></span>
-            <a class="navbar-brand" href="#">LOGO</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-                aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md navbar-light">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            {# Este div es para dejar centrado Los botones #}
+            <a class="navbar-brand" href="{{path('documentos')}}"><b style="color:#4a8a91">Home</b></a>
+        </div>
+        <div class="mx-auto order-0 ">
+            <ul class="navbar-nav ml-auto">
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Documentos
+                    </a>
+                    <div class="dropdown-menu itemMenu" aria-labelledby="navbarDropdownMenuLink">
+                      <a class="formMenu dropdown-item" href="{{ path('nuevoDocumento') }}">Crear uno nuevo</a>
+                      <a class="formMenu dropdown-item" style="background-color:red;" href="{{ path('documentosTipo') }}">Tipos de documento</a>
+                    </div>
+                </li>
+                
+                {% endif %}
+            </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav animate side-nav">
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home
-                    <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="{{ path('backIntranet') }}"> Volver a Intranet
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Side Menu Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                </ul>
-                <ul class="navbar-nav ml-md-auto d-md-flex">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home
-                    <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Top Menu Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                </ul>
-            </div>
+            </ul>
+        </div>
         </nav>
-    </div>
-
         {% for message in app.flashes('correcto') %}
                 <div id="notificacion" class="container alert alert-success">
                     {{ message }}

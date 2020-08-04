@@ -139,6 +139,7 @@ class DocumentoController extends AbstractController
     }
 
     private function crearLog($documento){
+        
         $fp = fopen("uploads/logs/".$this->getFechActualString()."-iduser=".($this->getUser())->getId(), "x+");
         $texto="";
         $texto.="------------------".$this->getFechActualString()."------------------\n";

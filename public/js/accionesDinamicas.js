@@ -2,7 +2,10 @@ $(function() {
     var divTipoDocumento= $("#divFormTipoDocumento").hide();
     
     
-    
+    $('.leftmenutrigger').on('click', function(e) {
+        $('.side-nav').toggleClass("open");
+        e.preventDefault();
+    });
     
     //Tipo de documentos
     
