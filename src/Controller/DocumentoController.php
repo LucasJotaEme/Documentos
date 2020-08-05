@@ -201,7 +201,7 @@ class DocumentoController extends AbstractController
             $entityManager->flush($documento);
             return $this->index($request);
         }
-        return $this->render('documento/nuevoDocumento.html.twig', [
+        return $this->render('documento/modificarDocumento.html.twig', [
             'formulario' => $formulario->createView()
         ]);
     }
@@ -310,7 +310,9 @@ class DocumentoController extends AbstractController
             if (!in_array($palabra, $palabrasBD)) {
                 $clasPalabra= new PalabraClave();
                 $clasPalabra->setNombre($palabra);
-                $entityManager->persist($clasPalabra);
+                if($palabra!=''){
+                    $entityManager->persist($clasPalabra);
+                }
             }
             $entityManager->flush();
         }

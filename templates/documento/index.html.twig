@@ -51,8 +51,12 @@
                 <td>{{ documento.descripcion }}</td>
                 <td>
                     <a class="btn btn-success" href="{{ path('verPDF', {'id': documento.id}) }}">Ver PDF</a>
-                    <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
-                    <a class="btn btn-danger" href="{{ path('eliminarDocumento', {'id': documento.id}) }}">Eliminar</a>
+                    {% if documento.estado=="Alta" %}
+                        <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
+                        <a class="btn btn-danger" href="{{ path('eliminarDocumento', {'id': documento.id}) }}">Eliminar</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="#">Eliminar</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

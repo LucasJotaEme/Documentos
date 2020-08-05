@@ -10,3 +10,13 @@ function verificarAnio(campoAnio){
     }
 
 }
+
+function contadorTitulo(titulo){
+    var mensaje= document.getElementById('mensajeTitulo');
+    var caracteresFaltantes=  (20-(titulo.value.length+1));
+    if (caracteresFaltantes<=0){
+        mensaje.innerHTML="Válido";
+    }else{
+        mensaje.innerHTML="Faltan "+ (20-(titulo.value.length+1)) + " caracteres";
+    }
+}

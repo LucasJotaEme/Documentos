@@ -25,7 +25,7 @@
 <div>
     <a class="btn btn-light bordeSombreado" style="color:#306086;" href="{{path('documentos')}}"><img src="{{ asset("svg/reply.svg") }}" alt="Imagen documento">Volver al menú</a>
     <div style="text-align:center;" class="container-fluid">
-        <h3 style="color:#0F9FA8;">Documentos>>Crear</h3>
+        <h3 style="color:#0F9FA8;">Documentos>>Modificar</h3>
     </div>
     {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
 
@@ -46,7 +46,7 @@
                         <h5>Número:</h5>
                     </div>
                     <div class="col-sm-9">
-                        {{ form_widget(formulario.numero, {attr: {class: 'form-control' , placeholder: 'Escriba el número del documento..'} }) }}  
+                        {{ form_widget(formulario.numero, {attr: {disabled: 'disabled',class: 'form-control' , placeholder: 'Escriba el número del documento..'} }) }}  
                     </div>
             </div>
                     
@@ -55,7 +55,7 @@
                         <h5>Año:</h5>
                     </div>
                     <div class="col-sm-9">
-                        {{ form_widget(formulario.anio, {attr: {onblur: 'verificarAnio(this)' , class: 'form-control' , placeholder: 'Escriba el año..'} }) }}  
+                        {{ form_widget(formulario.anio, {attr: {disabled: 'disabled',onblur: 'verificarAnio(this)' , class: 'form-control' , placeholder: 'Escriba el año..'} }) }}  
                     </div>
             </div>
                     
