@@ -2,11 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Documentos - UNRaf{% endblock %}</title>
-        <link href="{{ asset("css/estiloBase.css") }}" rel="stylesheet" type="text/css">
+        <title>{% block title %}Novedades - UNRaf{% endblock %}</title>
         {% block stylesheets %}
-            
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link href="{{ asset("css/estiloBase.css") }}" rel="stylesheet" type="text/css">
+            {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
             <link href="{{ asset("css/estilo.css") }}" rel="stylesheet" type="text/css">
             <link rel="icon" href="{{ asset("img/iconoUnraf.png") }}">
             <link href="{{ asset('css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
@@ -16,27 +16,42 @@
     </head>
     <body> 
     {% block body %}
-    <div style="margin-top:70px;">
+    <div id="wrapper" class="animate">
         <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-light bg-light">
             <span class="navbar-toggler-icon leftmenutrigger"></span>
-            <a class="navbar-brand" href="#">LOGO</a>
+            <a class="navbar-brand" href="{{path('documentos')}}" style="color:#4a8a91">Novedades</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
+                
                 <ul class="navbar-nav animate side-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home
-                    <span class="sr-only">(current)</span>
-                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li id="menuDocumento" class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="{{ asset("img/documento.svg") }}" alt="Imagen documento">Documentos
+                        </a>
+                    </li>
+                    <li id="documentoToggle" class="nav-item">
+                        <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('nuevoDocumento') }}">Crear</a>
+                    </li>
+                    <li id="menuTipoDocumento" class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="{{ asset("img/documento.svg") }}" alt="Imagen documento">Tipo de documento
+                        </a>
+                    </li>
+                    <li id="tipoDocumentoToggle" class="nav-item">
+                        <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('documentosTipo') }}">Crear y/o buscar</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Documento</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" style="background-color:#a3d8d0;" href="{{ path('backIntranet') }}"> Volver a intranet</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Side Menu Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
+
                 </ul>
                 <ul class="navbar-nav ml-md-auto d-md-flex">
                 <li class="nav-item">
@@ -53,7 +68,6 @@
                 </ul>
             </div>
         </nav>
-    </div>
 
         {% for message in app.flashes('correcto') %}
                 <div id="notificacion" class="container alert alert-success">
@@ -70,7 +84,6 @@
                 {{ message }}
                 </div>
         {% endfor %}
-        {#<a class="float-right" style="text-align:right;" href="{{ path('documentosTipo')}}">Tipos de documentos</a>#}
                 
         
         
