@@ -119,6 +119,11 @@ class Documento
      */
     private $idUserModificador;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motivoObsoleto;
+
 
     public function __construct()
     {
@@ -367,6 +372,18 @@ class Documento
     public function setIdUserModificador(?int $idUserModificador): self
     {
         $this->idUserModificador = $idUserModificador;
+
+        return $this;
+    }
+
+    public function getMotivoObsoleto(): ?string
+    {
+        return $this->motivoObsoleto;
+    }
+
+    public function setMotivoObsoleto(?string $motivoObsoleto): self
+    {
+        $this->motivoObsoleto = $motivoObsoleto;
 
         return $this;
     }

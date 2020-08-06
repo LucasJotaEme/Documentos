@@ -6,6 +6,8 @@
 
 {{ parent() }}
 {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+
+
 <div style="background-color:#F0F0F0;">
     <div  class="row">
 
@@ -28,8 +30,8 @@
 <br>
 <h6>-Bug pendientes:</h6>
 <h6>-Palabras claves, falta configurar bien.</h6>
-<h6>-Caso de uso OBSOLETO.</h6>
-<h6>-Caso de uso BUSQUEDA.</h6>
+<h6>-Diseño, svgs, mostrar bien los documentos</h6>
+<h6>-Mañana:Caso de uso BUSQUEDA.</h6>
 <div class="container">
     <table class="table">
         <thead>
@@ -56,9 +58,36 @@
                     <a class="btn btn-success" href="{{ path('verPDF', {'id': documento.id}) }}">Ver PDF</a>
                     {% if documento.estado=="Alta" %}
                         <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
-                        <a class="btn btn-danger" href="{{ path('eliminarDocumento', {'id': documento.id}) }}">Eliminar</a>
+                        <a class="btn btn-danger" onclick="idObsoletear({{documento.id}})" data-toggle="modal" href="#ventanaModal">Icono obsoleto</a>
+                        {# Modal para cuando se basurea el documento. #}
+                        <div class="modal fade" id="ventanaModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content scroll">
+
+                                    <div class="modal-header">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h6 style="margin:3px;" class="modal-title">Desea realmente enviar este documento a obsoleto?</h6>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input id="inputObsoleto" type="text" class="form-control" placeholder="Ingrese el motivo.."></input>
+                                                <h6 style="color:grey;">Mínimo 10 caracteres</h6>
+                                                <h6 id="mensajeMotivo" style="color:red;"></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <a onclick="direccionarParaObsoletear()" class="btn botonAzul container" style="text-align:center">Confirmar</a>
+                                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {# .... #}
                     {% else %}
-                        <a class="btn btn-danger" href="#">Eliminar</a>
+                        <a class="btn btn-danger" href="{{ path('eliminarDefinitivo', {'id': documento.id}) }}">Definitivo</a>
                     {% endif %}
                 </td>
             </tr>

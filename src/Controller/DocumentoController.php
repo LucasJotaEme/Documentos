@@ -237,7 +237,7 @@ class DocumentoController extends AbstractController
             $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
 
             $entityManager->flush($documento);
-            return $this->index($request);
+            return $this->redirectToRoute('documentos');
         }
         return $this->render('documento/modificarDocumento.html.twig', [
             'formulario' => $formulario->createView()
@@ -245,17 +245,32 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/eliminarDocumento/{id}", name="eliminarDocumento")
+     * @Route("/eliminarDocumento/{id}/{motivo}", name="eliminarDocumento")
      */
-    public function eliminarDocumento(Request $request,$id)
+    public function eliminarDocumento(Request $request,$id,$motivo)
     {
         $entityManager = $this->getDoctrine()->getManager();
         
         $documento = $entityManager->getRepository(Documento::class)->find($id);
         $documento->setEstado("Baja");
+        $documento->setMotivoObsoleto($motivo);
         $entityManager->flush();      
         //$this->addFlash('correcto', 'Se ha dado de baja correctamente');      
-        return $this->index($request);
+        return $this->redirectToRoute('documentos');
+    }
+
+    /**
+     * @Route("/eliminarDefinitivo/{id}", name="eliminarDefinitivo")
+     */
+    public function eliminarDefinitivo(Request $request,$id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $documento = $entityManager->getRepository(Documento::class)->find($id);
+        $entityManager->remove($documento);
+        $entityManager->flush();      
+        //$this->addFlash('correcto', 'Se ha dado de baja correctamente');      
+        return $this->redirectToRoute('documentos');
     }
 
     //--------------- CONSULTAS A PATA ----------------

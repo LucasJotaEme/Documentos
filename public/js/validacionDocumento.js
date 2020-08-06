@@ -20,3 +20,26 @@ function contadorTitulo(titulo){
         mensaje.innerHTML="Faltan "+ (20-(titulo.value.length+1)) + " caracteres";
     }
 }
+
+var idObsoleto=0;
+
+function idObsoletear(id){
+    idObsoleto=id;
+}
+
+function direccionarParaObsoletear(){
+    //Sirve para redireccionar desde acá el documento para obsoleto. Desde twig o html no se puede.
+
+    //Mensaje de error
+    var mensajeMotivo= document.getElementById('mensajeMotivo');
+
+    //Input de obsoleto, donde se hace validación.
+    var inputObsoleto= document.getElementById('inputObsoleto');
+
+    if (inputObsoleto.value.length >= 10){
+        location.href ="http://localhost/Documentos/public/index.php/eliminarDocumento/" + idObsoleto + "/" + inputObsoleto.value;
+    }else{
+        mensajeMotivo.style.color="red";
+        mensajeMotivo.innerHTML="Mínimo 10 caracteres.";
+    }
+}
