@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\DocumentoTipo;
 
-class DocumentoType extends AbstractType
+class DocumentoModificarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,7 +30,7 @@ class DocumentoType extends AbstractType
             ->add('palabraClave', TextType::class)
             ->add('titulo')
             ->add('descripcion')
-            ->add('path',FileType::class,['required'=>true,'multiple'=>false, 'data_class' => null])
+            ->add('path',FileType::class,['required'=>false,'multiple'=>false, 'data_class' => null])
             ->add('perfil', ChoiceType::class, [
                 'choices'  => [
                     'Usuario' => null,
@@ -39,10 +39,10 @@ class DocumentoType extends AbstractType
                 ],
             ])
             ->add('publico')
-            ->add('Grabar',SubmitType::class)
+            ->add('Modificar',SubmitType::class)
         ;
         
-        }
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {

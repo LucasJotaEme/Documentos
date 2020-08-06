@@ -45,9 +45,15 @@ class User implements UserInterface
      */
     private $documento;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Documento::class, mappedBy="userModificador")
+     */
+    private $documentoModificado;
+
     public function __construct()
     {
         $this->documento = new ArrayCollection();
+        $this->documentoModificado = new ArrayCollection();
     }
 
     public function getId(): ?int

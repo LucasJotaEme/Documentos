@@ -23,8 +23,8 @@
         <div class="mx-auto order-0 ">
             <ul class="navbar-nav ml-auto">
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
-                    <a id="menuDocumento" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Documentos
                     </a>
                     <div class="dropdown-menu itemMenu" aria-labelledby="navbarDropdownMenuLink">
@@ -42,7 +42,7 @@
         <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('backIntranet') }}"> Volver a Intranet
+                    <a class="nav-link" href="{{ path('backIntranet') }}"> Volver a intranet
                     </a>
                 </li>
             </ul>

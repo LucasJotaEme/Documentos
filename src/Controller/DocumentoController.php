@@ -9,6 +9,7 @@ use App\Entity\Busqueda;
 use App\Entity\PalabraClave;
 use App\Form\BusquedaType;
 use App\Form\DocumentoType;
+use App\Form\DocumentoModificarType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DocumentoController extends AbstractController
@@ -110,7 +111,7 @@ class DocumentoController extends AbstractController
         $documento = $formulario->getData();
 
         if ($formulario->isSubmitted() && $this->validarDocumento($documento)){
-
+            
             $extensionArchivo=$documento->getPath()->guessExtension();
             $nombreArchivo= time().".".$extensionArchivo;
             $documento->getPath()->move("uploads",$nombreArchivo);
@@ -126,9 +127,10 @@ class DocumentoController extends AbstractController
             $documento->setUser($this->getUser());
             $entityManager->persist($documento);
             $entityManager->flush();
-            $this->crearLog($documento);
-            return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
-            .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo());
+            $this->crearLog($documento,'Nuevo');
+            return $this->redirectToRoute('documentos');
+            /*return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
+            .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo());*/
         }
         else{
 
@@ -138,9 +140,13 @@ class DocumentoController extends AbstractController
         }
     }
 
-    private function crearLog($documento){
+    private function crearLog($documento,$estado){
         
-        $fp = fopen("uploads/logs/".$this->getFechActualString()."-iduser=".($this->getUser())->getId(), "x+");
+        if ($estado == "Nuevo"){
+            $fp = fopen("uploads/logs/nuevo/".$this->getFechActualString()."-iduser=".($this->getUser())->getId(), "x+");
+        }else{
+            $fp = fopen("uploads/logs/modificado/".$this->getFechActualString()."-iduser=".($this->getUser())->getId(), "x+");
+        }
         $texto="";
         $texto.="------------------".$this->getFechActualString()."------------------\n";
         $texto.="Usuario:".$this->getUser()->getEmail()."\n";
@@ -186,18 +192,50 @@ class DocumentoController extends AbstractController
      */
     public function modificarDocumento(Request $request,$id)
     {
+
         $entityManager = $this->getDoctrine()->getManager();
         
         $documento = $entityManager->getRepository(Documento::class)->find($id);
+
+        //Si no hay archivo PDF nuevo, se carga de nuevo este
+        $urlPDF = $documento->getPath();
+
+        //Si se hace un submmit, se guarda la versión anterior del documento.
+        $versionAnterior=$documento->getNumeroVersion();
+
         $documento->setNumeroVersion($documento->getNumeroVersion()+1);
-        $formulario = $this->createForm(DocumentoType::class,$documento);
+
+        $formulario = $this->createForm(DocumentoModificarType::class,$documento);
         $formulario->handleRequest($request);
         
-        if ($formulario->isSubmitted()){
-
+        //Se obtiene las palabras claves de la BD
+        $palabrasBD= $entityManager->getRepository(PalabraClave::class)->findAll();
+        
+        if ($formulario->isSubmitted()&& $this->validarDocumento($documento)){
 
             $documento = $formulario->getData();
-            
+
+            if($documento->getPath()!=null){
+                $extensionArchivo=$documento->getPath()->guessExtension();
+                $nombreArchivo= time().".".$extensionArchivo;
+                $documento->getPath()->move("uploads",$nombreArchivo);
+                $documento->setPath($nombreArchivo);
+            }else{
+                $documento->setPath($urlPDF);
+            }
+
+
+            //Datos cuando se modifica el documento: Usuario modificador, fecha actual, y versión anterior.
+            $documento->setFechaModificacion($this->getFechActual());
+            $documento->setIdUserModificador($this->getUser()->getId());
+            $documento->setVersionAnterior($versionAnterior);
+
+            //Log de modificación
+            $this->crearLog($documento,'Modificado');
+
+            //Palabras claves
+            $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
+
             $entityManager->flush($documento);
             return $this->index($request);
         }

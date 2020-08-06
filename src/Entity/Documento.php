@@ -104,11 +104,27 @@ class Documento
      */
     private $palabraClave;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $fechaModificacion;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $versionAnterior;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $idUserModificador;
+
 
     public function __construct()
     {
         $this->usuario = new ArrayCollection();
         $this->palabraClave = new ArrayCollection();
+        $this->userModificador = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -315,6 +331,42 @@ class Documento
     public function setPalabraClave(?string $palabraClave): self
     {
         $this->palabraClave = $palabraClave;
+
+        return $this;
+    }
+
+    public function getFechaModificacion(): ?\DateTimeInterface
+    {
+        return $this->fechaModificacion;
+    }
+
+    public function setFechaModificacion(?\DateTimeInterface $fechaModificacion): self
+    {
+        $this->fechaModificacion = $fechaModificacion;
+
+        return $this;
+    }
+
+    public function getVersionAnterior(): ?int
+    {
+        return $this->versionAnterior;
+    }
+
+    public function setVersionAnterior(?int $versionAnterior): self
+    {
+        $this->versionAnterior = $versionAnterior;
+
+        return $this;
+    }
+
+    public function getIdUserModificador(): ?int
+    {
+        return $this->idUserModificador;
+    }
+
+    public function setIdUserModificador(?int $idUserModificador): self
+    {
+        $this->idUserModificador = $idUserModificador;
 
         return $this;
     }
