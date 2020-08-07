@@ -33,9 +33,11 @@
 <h6>-Diseño, svgs, mostrar bien los documentos</h6>
 <h6>-Mañana:Caso de uso BUSQUEDA.</h6>
 <div class="container">
-    <table class="table">
+
+    {# Comienza tabla #}
+    <table class="table table-responsive" style="margin:0 auto;">
         <thead>
-          <tr>
+          <tr style="background-color:#0F9FA8;color:white;text-align:center;">
             <th scope="col">N° documento</th>
             <th scope="col">Año</th>
             <th scope="col">Fecha publicación</th>
@@ -55,10 +57,10 @@
                 <td>{{ documento.titulo }}</td>
                 <td>{{ documento.descripcion }}</td>
                 <td>
-                    <a class="btn btn-success" href="{{ path('verPDF', {'id': documento.id}) }}">Ver PDF</a>
+                    <a class="btn btn-light" href="{{ path('verPDF', {'id': documento.id}) }}"><img src="{{ asset("svg/verPdf.svg") }}" class="svgMenu" alt="PDF">Ver</a>
                     {% if documento.estado=="Alta" %}
-                        <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}">Modificar</a>
-                        <a class="btn btn-danger" onclick="idObsoletear({{documento.id}})" data-toggle="modal" href="#ventanaModal">Icono obsoleto</a>
+                        <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}"><img src="{{ asset("svg_pack/pencil.svg") }}" width="18" class="svgMenu" alt="Modificar"></a>
+                        <a class="btn btn-danger" onclick="idObsoletear({{documento.id}})" data-toggle="modal" href="#ventanaModal"><img src="{{ asset("svg/trash.svg") }}" class="svgMenu" alt="Basura"></a>
                         {# Modal para cuando se basurea el documento. #}
                         <div class="modal fade" id="ventanaModal">
                             <div class="modal-dialog">
