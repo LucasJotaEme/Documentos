@@ -1,7 +1,6 @@
 $( document ).ready(function() {
     var divTipoDocumento= $("#divFormTipoDocumento").hide();
     var documentoToggle= $("#documentoToggle").hide();
-    $('.side-nav').toggleClass("open");
     var tipoDocumentoToggle= $("#tipoDocumentoToggle").hide();
     var menuDocumento= $("#menuDocumento");
     var menuTipoDocumento= $("#menuTipoDocumento");

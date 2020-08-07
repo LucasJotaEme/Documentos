@@ -8,32 +8,24 @@
 {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
 
 
-<div style="background-color:#F0F0F0;">
-    <div  class="row">
-
-        <div class="col-lg-6 col-md-6 col-sm-12 espaciado">
-            {{ form_label(formulario.buscar) }}<br>
-            {{ form_widget(formulario.buscar, {attr: {class: 'ancho',placeholder: 'Escriba el número del documento..'} }) }}  
+<div class="bordeSombreado espaciado degrade">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            Buscar
+            {{ form_widget(formulario.buscar, {attr: {class: 'form-control',placeholder: 'Escriba el número del documento..'} }) }}  
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 espaciado ">
-            {{ form_label(formulario.filtrarPor) }}<br>
-            {{ form_widget(formulario.filtrarPor, {attr: {class: 'ancho'} }) }}  
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            Filtrar por<br>
+            {{ form_widget(formulario.filtrarPor, {attr: {class: 'form-control'} }) }}  
         </div>
     </div>
     <div class="center">
-    {{ form_widget(formulario.Buscar, {attr: {class: 'btn btn-success botonBuscar'} }) }}  
+    {{ form_widget(formulario.Buscar, {attr: {class: 'btn botonCeleste ancho'} }) }}  
     </div>
          {{ form_end(formulario) }}
 </div>
 <br>
-<h4 style="text-align:center;">Resultados</h4>
-<br>
-<h6>-Bug pendientes:</h6>
-<h6>-Palabras claves, falta configurar bien.</h6>
-<h6>-Diseño, svgs, mostrar bien los documentos</h6>
-<h6>-Mañana:Caso de uso BUSQUEDA.</h6>
-<div class="container">
-
+<div class="container bordeSombreado">
     {# Comienza tabla #}
     <table class="table table-responsive" style="margin:0 auto;">
         <thead>

@@ -2,6 +2,15 @@
     background-color:#306086;
     color:white;
 }
+
+.botonCeleste{
+    background-color:#0F9FA8;
+    color:white;
+}
+
+.degrade{
+    /*background-image: linear-gradient(to right,white,white,white,#bebebe);*/
+}
 .divFormulario{
     border-radius:0px;
     -webkit-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
@@ -26,7 +35,7 @@
 }
 
 .espaciado{
-    padding-left: 200px;
+    padding: 50px;
 }
 
 .center{
