@@ -135,8 +135,8 @@ class DocumentoTipoController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         
         $documentoTipo = $entityManager->getRepository(DocumentoTipo::class)->find($id);
-        $entityManager->remove($documentoTipo);
-        $entityManager->flush();      
+        $documentoTipo->setEstado("Baja");
+        $entityManager->flush($documentoTipo);      
         //$this->addFlash('correcto', 'Se ha dado de baja correctamente');      
         return $this->index($request);
     }

@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\DocumentoTipo;
+use Doctrine\ORM\EntityRepository;
 
 class DocumentoModificarType extends AbstractType
 {
@@ -21,7 +22,12 @@ class DocumentoModificarType extends AbstractType
         $builder
             ->add('documentoTipo', EntityType::class, [
                 'class' => DocumentoTipo::class,
-                'choice_label' => 'nombre',])
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('dt')
+                        ->add('where', "dt.estado = 'Alta'");
+                    },
+                'choice_label' => 'nombre'])
+        
             ->add('numero', TextType::class)
             ->add('anio')
             ->add('fechaPublicacion')

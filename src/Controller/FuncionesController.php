@@ -22,7 +22,9 @@ class FuncionesController extends AbstractController
                 $user= new User();
                 $user->setUltimoAcceso($this->getFechActual());
                 $user->setEmail($email);
-                $user->setRoles([$rolForm]);
+                //Hacemos cambios en ROLES, si es USER, lo pasamos a Lector.
+                $user->setRoles($this->cambiarRol($rolForm));
+
                 $user->setEstado($estado);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
@@ -32,13 +34,29 @@ class FuncionesController extends AbstractController
                 $this->get('session')->set('_security_main', serialize($token));
         }else{
             foreach ($users as  $user){
-                $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+                $cambioRol=$this->cambiarRol($rolForm);
+                $user->setRoles($cambioRol);
+                $token = new UsernamePasswordToken($user, null, 'main', $cambioRol);
                 $this->get('security.token_storage')->setToken($token);
                 $this->get('session')->set('_security_main', serialize($token));
+                $em->flush($user);
             }
         }
         
         return $this->redirectToRoute('documentos');
+    }
+
+    public function cambiarRol($rolesACambiar){
+        $roles=json_decode($rolesACambiar,TRUE);
+        $nuevoRol = [];
+        foreach ((array) $roles as $rol ){
+            if($rol == "ROLE_USER"){
+                array_push($nuevoRol,"ROLE_LECTOR");
+            }else{
+                array_push($nuevoRol,$rol);
+            }
+        }
+        return $nuevoRol;  
     }
     
     /**

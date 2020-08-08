@@ -167,7 +167,10 @@ class DocumentoController extends AbstractController
     public function validarDocumento($documento){
         $fechaActual=  new \DateTime();
         $fechaActual->modify("3 hours");
-        if ($documento->getNumero() <= 0) {
+        if ($documento->getDocumentoTipo()->getNombre() == 'Seleccionar') {
+            $this->addFlash('error', 'Debe seleccionar un tipo de documento');
+            return false;
+        } else if ($documento->getNumero() <= 0) {
             $this->addFlash('error', 'El campo número no puede ser 0.');
             return false;
         } else if ($documento->getAnio() < $this->getAnioActual() || $documento->getAnio()>($this->getAnioActual()+1) )  {

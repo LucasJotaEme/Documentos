@@ -19,12 +19,13 @@
     </div>
     
     {% for documento in documentos %}
+        {% if documento.nombre != 'Seleccionar' %}
         <div>
             <h2>{{documento.nombre}}</h2>
             <a href="{{ path('modificarDocumentoTipo', {'id': documento.id}) }}">Modificar</a>
             <a href="{{ path('eliminarDocumentoTipo', {'id': documento.id}) }}">Eliminar</a>
         </div>
-        
+        {% endif %}
     {% endfor %}
     
 </div>
