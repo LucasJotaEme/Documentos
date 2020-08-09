@@ -8,6 +8,11 @@
     color:white;
 }
 
+.botonRosa{
+    background-color:#fc447c;
+    color:white;
+}
+
 .degrade{
     /*background-image: linear-gradient(to right,white,white,white,#bebebe);*/
 }

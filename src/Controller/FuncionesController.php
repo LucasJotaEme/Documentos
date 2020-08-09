@@ -34,7 +34,7 @@ class FuncionesController extends AbstractController
                 $this->get('session')->set('_security_main', serialize($token));
         }else{
             foreach ($users as  $user){
-                $cambioRol=$this->cambiarRol($rolForm);
+                $cambioRol=$this->cambiarRol($rolForm,$user->getRoles());
                 $user->setRoles($cambioRol);
                 $token = new UsernamePasswordToken($user, null, 'main', $cambioRol);
                 $this->get('security.token_storage')->setToken($token);
@@ -46,14 +46,22 @@ class FuncionesController extends AbstractController
         return $this->redirectToRoute('documentos');
     }
 
-    public function cambiarRol($rolesACambiar){
+    public function cambiarRol($rolesACambiar,$rolEnDocumentos){
         $roles=json_decode($rolesACambiar,TRUE);
         $nuevoRol = [];
         foreach ((array) $roles as $rol ){
             if($rol == "ROLE_USER"){
                 array_push($nuevoRol,"ROLE_LECTOR");
-            }else{
-                array_push($nuevoRol,$rol);
+            }
+            if (in_array($rol, $rolEnDocumentos) && $rol != "ROLE_USER") {
+                //if($rol == "ROLE_ADMIN"){
+                    //array_push($nuevoRol,"ROLE_EDITOR"); HAY QUE VER REALMENTE, SI UN ADMIN ES TAMBIÉN EDITOR.
+                //}
+                if(in_array("ROLE_EDITOR", $rolEnDocumentos)){
+                    array_push($nuevoRol,"ROLE_EDITOR");
+                }else{
+                    array_push($nuevoRol,$rol);
+                }
             }
         }
         return $nuevoRol;  

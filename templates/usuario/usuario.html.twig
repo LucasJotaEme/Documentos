@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documentos - Usuarios{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+{% block icon %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+
+<div>
+    <div>
+        <h3 style="text-align:center;color:#0F9FA8">ROLES<b></b></h3>
+    </div>
+    <div  style="padding:10px; margin:10px;">
+        <div >
+            <b> CANTIDAD DE USUARIOS: {{ usuarios|length }}</b>
+        </div>
+        <hr>
+        <div style="margin-top:5px;">
+            {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+            <div class="container campoForm" style="text-align:center;">
+                
+                <div style="" class="form-group row">
+                    <div class="col-sm-6">
+                        {{ form_widget(formulario.buscar, {attr: {class: 'form-control campoForm' , placeholder: 'Escriba el email..'} }) }}  
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form_widget(formulario.Buscar, {attr: {style: 'background-color: #0F9FA8;color:white;',class: 'form-control campoForm btn'} }) }}  
+                    </div>
+                </div>
+            
+            </div>
+            {{ form_end(formulario) }}
+            
+        </div>
+    </div>
+    <table style="text-align:center;" class="table table-hover">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Cambio de rol</th>
+        </tr>
+    </thead>
+    {% set rolActualUser = "" %}
+    {% for usuario in usuarios %}
+        <tbody style="">
+            <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td><h6 style="color:#0F9FA8">{{ usuario.email|replace({'@unraf.edu.ar': ''})}}</h6></td>
+            {% for rol in usuario.roles %}
+            {% if loop.last %}
+                <td><p style="color:#2B2B2B">{{ rol|slice(5,rol|length)}}</p></td>
+                    {# Recorrer los roles del usuario actual.#}
+
+                    {% for rolUser in app.user.roles %}
+                        {% if loop.last %}
+                            {% set rolActualUser = rolUser %}
+                        {% endif %}
+                    {% endfor %}
+                    {# ... #}
+
+                    {% if rol=="ROLE_SUPERADMIN" %}
+                    <td>
+                        <a href="{{path('cambioLector', {'id': usuario.id})}}" class="btn botonCeleste">Lector</a>
+                        <a href="{{path('cambioEditor',{'id': usuario.id})}}" class="btn botonAzul">Editor</a>
+                        {% if rolActualUser == "ROLE_SUPERADMIN" %}
+                            <a href="{{path('cambioAdmin',{'id': usuario.id})}}" class="btn btn-primary">Admin</a>
+                        {% endif %}
+                    </td>
+                    {% elseif rol=="ROLE_ADMIN" %}
+                    <td>
+                        {% if rolActualUser == "ROLE_SUPERADMIN" %}
+                            <a href="{{path('cambioSuperadmin',{'id': usuario.id})}}" class="btn botonRosa">Superadmin</a>
+                        {% endif %}
+                        <a href="{{path('cambioLector', {'id': usuario.id})}}" class="btn botonCeleste">Lector</a>
+                        <a href="{{path('cambioEditor',{'id': usuario.id})}}" class="btn botonAzul">Editor</a>
+                    </td>
+                    {% elseif rol=="ROLE_EDITOR" %}
+                    <td>
+                        {% if rolActualUser == "ROLE_SUPERADMIN" %}
+                            <a href="{{path('cambioSuperadmin',{'id': usuario.id})}}" class="btn botonRosa">Superadmin</a>
+                            <a href="{{path('cambioAdmin',{'id': usuario.id})}}" class="btn btn-primary">Admin</a>
+                        {% endif %}
+                        <a href="{{path('cambioLector', {'id': usuario.id})}}" class="btn botonCeleste">Lector</a>
+                    </td>
+                    {% else %}
+                    <td>
+                        {% if rolActualUser == "ROLE_SUPERADMIN" %}
+                            <a href="{{path('cambioSuperadmin',{'id': usuario.id})}}" class="btn botonRosa">Superadmin</a>
+                            <a href="{{path('cambioAdmin',{'id': usuario.id})}}" class="btn btn-primary">Admin</a>
+                        {% endif %}
+                        <a href="{{path('cambioEditor',{'id': usuario.id})}}" class="btn botonAzul">Editor</a>
+                    </td>
+                    {% endif %}
+            {% endif %}  
+            {% endfor %}
+            </tr>
+        </tbody>
+    {% else %}
+        <div class="row" style="margin:20px;">
+            <h3 style="color:grey;">No se encontraron usuarios</h3>
+        </div>
+    {% endfor %}  
+    
+    </div>
+</div>
+{% endblock %}

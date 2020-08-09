@@ -36,13 +36,17 @@
                     <li id="documentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('nuevoDocumento') }}">Crear</a>
                     </li>
-                    <li id="menuTipoDocumento" class="nav-item">
-                        <a class="nav-link" href="#">
-                            Tipo de documento
-                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('documentosTipo') }}">Tipo documento</a>
                     </li>
                     <li id="tipoDocumentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('documentosTipo') }}">Crear y/o buscar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('usuarios') }}">
+                            <img src="{{ asset("svg_pack/people.svg") }}" class="svgMenu" width="18" alt="Users"> 
+                            Usuarios
+                        </a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
