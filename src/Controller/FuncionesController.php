@@ -22,8 +22,10 @@ class FuncionesController extends AbstractController
                 $user= new User();
                 $user->setUltimoAcceso($this->getFechActual());
                 $user->setEmail($email);
+                $user->setAccesoDocumentos('Público');
+                
                 //Hacemos cambios en ROLES, si es USER, lo pasamos a Lector.
-                $user->setRoles($this->cambiarRol($rolForm));
+                $user->setRoles($this->nuevoRol($rolForm));
 
                 $user->setEstado($estado);
                 $entityManager = $this->getDoctrine()->getManager();
@@ -46,6 +48,18 @@ class FuncionesController extends AbstractController
         return $this->redirectToRoute('documentos');
     }
 
+    public function nuevoRol($rolesACambiar){
+        $roles=json_decode($rolesACambiar,TRUE);
+        $nuevoRol = [];
+        foreach ((array) $roles as $rol ){
+            if($rol == "ROLE_USER"){
+                array_push($nuevoRol,"ROLE_LECTOR");
+            }else{
+                array_push($nuevoRol,$rol);
+            }
+        }
+        return $nuevoRol;
+    }
     public function cambiarRol($rolesACambiar,$rolEnDocumentos){
         $roles=json_decode($rolesACambiar,TRUE);
         $nuevoRol = [];
@@ -62,6 +76,13 @@ class FuncionesController extends AbstractController
                 }else{
                     array_push($nuevoRol,$rol);
                 }
+            }
+        }
+        foreach($rolEnDocumentos as $rol){
+            //Condicional para que no se repitan 
+            if(!in_array($rol, $nuevoRol)){
+                //Se agrega a nuevo Rol
+                array_push($nuevoRol,$rol);
             }
         }
         return $nuevoRol;  

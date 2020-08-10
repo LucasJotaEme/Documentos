@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\UserBusqueda;
 use App\Form\BusquedaUserType;
+use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,67 +39,90 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/admin/cambioLector/{id}", name="cambioLector")
+     * @Route("/admin/modificarUser/{id}/", name="modificarUser")
      */
-    public function cambioLector(Request $request,$id)
+    public function modificarUser(Request $request,$id)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        
+        
+        $usuario = $manager->getRepository(User::class)->find($id); 
+        
+        $form = $this->createForm(UserType::class,$usuario);
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $this->validarUsuario($usuario)){
+
+            $usuario = $form->getData();
+            $manager->flush();
+
+            //Cambio de ROLES
+            if ($usuario->getRolString()=="Lector"){
+                $this->cambioLector($usuario);
+            }else if ($usuario->getRolString()=="Editor"){
+                $this->cambioEditor($usuario);
+            }else if ($usuario->getRolString()=="Admin"){
+                $this->cambioAdmin($usuario);
+            }else{
+                $this->cambioSuperadmin($usuario);
+            }
+            // ....
+            $this->addFlash('correcto', 'Se modificó el usuario correctamente');
+
+            return $this->redirectToRoute('usuarios');
+        }
+        else{
+            return $this->render('usuario/editar.html.twig', [
+            'formulario' => $form->createView(),'usuario' => $usuario
+        ]);
+        }
+    }
+
+    public function validarUsuario($usuario){
+        $usuarioActual= $this->getUser()->getRolString();
+        if ($usuario->getRolString()=="Superadmin" && $usuarioActual != "Superadmin") {
+            $this->addFlash('error', 'No tiene los permisos suficientes como para dar permisos SUPERADMIN');
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function cambioLector($usuario)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $usuario= $em->getRepository(User::class)->find($id);
 
         $usuario->setRoles(['ROLE_LECTOR']);
             
         $em->flush($usuario);
-        $this->addFlash('correcto', 'Se cambió el permiso a LECTOR');
-        return $this->redirectToRoute('usuarios');
     }
 
-    /**
-     * @Route("/admin/cambioEditor/{id}", name="cambioEditor")
-     */
-    public function cambioEditor(Request $request,$id)
+    public function cambioEditor($usuario)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $usuario= $em->getRepository(User::class)->find($id);
 
         $usuario->setRoles(['ROLE_LECTOR','ROLE_EDITOR']);
             
         $em->flush($usuario);
-        $this->addFlash('correcto', 'Se cambió el permiso a EDITOR');
-        return $this->redirectToRoute('usuarios');
     }
 
-    /**
-     * @Route("/admin/cambioAdmin/{id}", name="cambioAdmin")
-     */
-    public function cambioAdmin(Request $request,$id)
+    public function cambioAdmin($usuario)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $usuario= $em->getRepository(User::class)->find($id);
-
-        $usuario->setRoles(['ROLE_LECTOR','ROLE_EDITOR','ROLE_ADMIN']);
+        $usuario->setRoles(['ROLE_LECTOR','ROLE_ADMIN']);
             
         $em->flush($usuario);
-        $this->addFlash('correcto', 'Se cambió el permiso a ADMIN');
-        return $this->redirectToRoute('usuarios');
     }
 
-    /**
-     * @Route("/admin/cambioSuperadmin/{id}", name="cambioSuperadmin")
-     */
-    public function cambioSuperadmin(Request $request,$id)
+    public function cambioSuperadmin($usuario)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $usuario= $em->getRepository(User::class)->find($id);
 
         $usuario->setRoles(['ROLE_LECTOR','ROLE_EDITOR','ROLE_ADMIN','ROLE_SUPERADMIN']);
             
         $em->flush($usuario);
-        $this->addFlash('correcto', 'Se cambió el permiso a SUPERADMIN');
-        return $this->redirectToRoute('usuarios');
     }
 
     //############### FUNCIONES #####################

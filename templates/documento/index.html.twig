@@ -40,7 +40,8 @@
           </tr>
         </thead>
         <tbody>
-        {% for documento in documentos %}
+            {% for documento in documentos %}
+            {% if app.user.accesoDocumentos == documento.perfil or app.user.accesoDocumentos == "Confidencial" or (app.user.accesoDocumentos=="Restringido" and documento.perfil=="Público") %}
             <tr>
                 <th scope="row">{{ documento.numero }}</th>
                 <td>{{ documento.anio }}</td>
@@ -85,6 +86,9 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
+            {% else %}
+                <h3 style="color:grey;text-align:center;padding:10px;">No se encontraron documentos.</h3>
             {% endfor %}
         </tbody>
     </table>

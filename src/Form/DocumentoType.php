@@ -39,12 +39,11 @@ class DocumentoType extends AbstractType
             ->add('path',FileType::class,['required'=>true,'multiple'=>false, 'data_class' => null])
             ->add('perfil', ChoiceType::class, [
                 'choices'  => [
-                    'Usuario' => null,
-                    'Editor' => true,
-                    'Administrador' => false,
+                    'Público' => 'Público',
+                    'Restringido' => 'Restringido',
+                    'Confidencial' => 'Confidencial',
                 ],
             ])
-            ->add('publico')
             ->add('Grabar',SubmitType::class)
         ;
         

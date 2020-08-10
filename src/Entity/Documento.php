@@ -124,6 +124,16 @@ class Documento
      */
     private $motivoObsoleto;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $permiso;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rolString;
+
 
     public function __construct()
     {
@@ -384,6 +394,30 @@ class Documento
     public function setMotivoObsoleto(?string $motivoObsoleto): self
     {
         $this->motivoObsoleto = $motivoObsoleto;
+
+        return $this;
+    }
+
+    public function getPermiso(): ?string
+    {
+        return $this->permiso;
+    }
+
+    public function setPermiso(?string $permiso): self
+    {
+        $this->permiso = $permiso;
+
+        return $this;
+    }
+
+    public function getRolString(): ?string
+    {
+        return $this->rolString;
+    }
+
+    public function setRolString(?string $rolString): self
+    {
+        $this->rolString = $rolString;
 
         return $this;
     }

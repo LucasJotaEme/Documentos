@@ -39,12 +39,11 @@ class DocumentoModificarType extends AbstractType
             ->add('path',FileType::class,['required'=>false,'multiple'=>false, 'data_class' => null])
             ->add('perfil', ChoiceType::class, [
                 'choices'  => [
-                    'Usuario' => null,
-                    'Editor' => true,
-                    'Administrador' => false,
+                    'Público' => 'Público',
+                    'Restringido' => 'Restringido',
+                    'Confidencial' => 'Confidencial',
                 ],
             ])
-            ->add('publico')
             ->add('Modificar',SubmitType::class)
         ;
         

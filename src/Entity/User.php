@@ -50,6 +50,16 @@ class User implements UserInterface
      */
     private $documentoModificado;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $accesoDocumentos;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rolString;
+
     public function __construct()
     {
         $this->documento = new ArrayCollection();
@@ -177,6 +187,30 @@ class User implements UserInterface
                 $documento->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAccesoDocumentos(): ?string
+    {
+        return $this->accesoDocumentos;
+    }
+
+    public function setAccesoDocumentos(string $accesoDocumentos): self
+    {
+        $this->accesoDocumentos = $accesoDocumentos;
+
+        return $this;
+    }
+
+    public function getRolString(): ?string
+    {
+        return $this->rolString;
+    }
+
+    public function setRolString(?string $rolString): self
+    {
+        $this->rolString = $rolString;
 
         return $this;
     }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documentos - Usuarios{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+{% block icon %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+
+<div>
+    <div>
+        <h3 style="text-align:center;color:#0F9FA8">Usuario>>Editar<b></b></h3>
+    </div>
+    <div  style="padding:10px; margin:10px;">
+        <hr>
+        <div style="margin-top:5px;">
+            {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+            <div class="container campoForm" style="text-align:center;">
+                {{usuario.email}}
+                <div style="" class="form-group row">
+                    <div class="col-sm-4">
+                        Permisos de documentos:
+                    </div>
+                    <div class="col-sm-8">
+                        {{ form_widget(formulario.accesoDocumentos, {attr: {class: 'form-control campoForm'} }) }}  
+                    </div>
+                </div>
+
+                <div style="" class="form-group row">
+                    <div class="col-sm-4">
+                        Roles:
+                    </div>
+                    <div class="col-sm-8">
+                        {{ form_widget(formulario.rolString, {attr: {class: 'form-control campoForm'} }) }}  
+                    </div>
+                </div>
+            
+            </div>
+            {{ form_end(formulario) }}
+            
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
