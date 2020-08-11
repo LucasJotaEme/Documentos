@@ -13,7 +13,7 @@ use App\Entity\Busqueda;
 class DocumentoTipoController extends AbstractController
 {
     /**
-     * @Route("/tipoDocumentos", name="documentosTipo")
+     * @Route("/admin/tipoDocumentos", name="documentosTipo")
      */
     public function index(Request $request)
     {
@@ -31,7 +31,7 @@ class DocumentoTipoController extends AbstractController
         $formulario = $this->createForm(DocumentoTipoType::class,$documentoTipo);
         $formulario->handleRequest($request);
         
-        if ($formulario->isSubmitted()){
+        if ($formulario->isSubmitted() && $this->validarDocumentoTipo($documentoTipo)){
             
             $entityManager = $this->getDoctrine()->getManager();
             $documentoTipo = $formulario->getData();
@@ -82,7 +82,7 @@ class DocumentoTipoController extends AbstractController
 
     
     /**
-     * @Route("/nuevoDocumentoTipo", name="nuevoDocumentoTipo")
+     * @Route("/admin/nuevoDocumentoTipo", name="nuevoDocumentoTipo")
      */
     public function nuevoDocumentoTipo(Request $request)
     {
@@ -90,23 +90,41 @@ class DocumentoTipoController extends AbstractController
         
         $formulario = $this->createForm(DocumentoTipoType::class,$documentoTipo);
         $formulario->handleRequest($request);
+
+        $documentoTipo = $formulario->getData();
         
         if ($formulario->isSubmitted()){
             
             $entityManager = $this->getDoctrine()->getManager();
-            $documentoTipo = $formulario->getData();
             $documentoTipo->setEstado('Alta');
             $entityManager->persist($documentoTipo);
             $entityManager->flush();
-            return $this->index($request);
+            $this->addFlash('correcto', 'Se creó un nuevo tipo de documento');
+            return $this->redirectToRoute();
+        }else{
+            return $this->render('documento_tipo/documentosTipo.html.twig', [
+                'formulario' => $formulario->createView()
+            ]);
         }
-        return $this->render('documento_tipo/documentosTipo.html.twig', [
-            'formulario' => $formulario->createView()
-        ]);
+    }
+
+    private function validarDocumentoTipo($documentoTipo){
+        if ($documentoTipo->getNombre() == "") {
+            $this->addFlash('error', 'No es válido.');
+            return false;
+        } else if ($documentoTipo->getAbreviacion() == "") {
+            $this->addFlash('error', 'No es válido');
+            return false;
+        } else if (strlen($documentoTipo->getAbreviacion()) > strlen($documentoTipo->getNombre())) {
+            $this->addFlash('error', 'La abreviación no puede ser mayor que el nombre.');
+            return false;
+        }else{
+            return true;
+        }
     }
     
     /**
-     * @Route("/modificarDocumentoTipo/{id}", name="modificarDocumentoTipo")
+     * @Route("/admin/modificarDocumentoTipo/{id}", name="modificarDocumentoTipo")
      */
     public function modificarDocumento(Request $request,$id)
     {
@@ -117,7 +135,7 @@ class DocumentoTipoController extends AbstractController
         $formulario = $this->createForm(DocumentoTipoType::class,$documentoTipo);
         $formulario->handleRequest($request);
         
-        if ($formulario->isSubmitted()){
+        if ($formulario->isSubmitted() && $this->validarDocumentoTipo($documentoTipo)){
             $documentoTipo = $formulario->getData();
             $entityManager->flush($documentoTipo);
             return $this->redirectToRoute('documentosTipo');
@@ -128,7 +146,7 @@ class DocumentoTipoController extends AbstractController
     }
     
     /**
-     * @Route("/eliminarDocumentoTipo/{id}", name="eliminarDocumentoTipo")
+     * @Route("/admin/eliminarDocumentoTipo/{id}", name="eliminarDocumentoTipo")
      */
     public function eliminarDocumento(Request $request,$id)
     {

@@ -28,6 +28,13 @@
 
 }
 
+.inputBorder{
+    border-left: white;
+    border-right: white;
+    border-top:white;
+    border-bottom: 2px solid #fc447c ;
+}
+
 .bordeSombreado{
     -webkit-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
     -moz-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);

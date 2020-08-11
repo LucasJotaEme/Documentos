@@ -18,8 +18,10 @@
     {% block body %}
     <div id="wrapper" class="animate">
         <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-light bg-light">
+
             <span class="navbar-toggler-icon leftmenutrigger"></span>
             <a class="navbar-brand" href="{{path('documentos')}}" style="color:#4a8a91">Novedades</a>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,9 +38,6 @@
                     <li id="documentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('nuevoDocumento') }}">Crear</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('documentosTipo') }}">Tipo documento</a>
-                    </li>
                     <li id="tipoDocumentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('documentosTipo') }}">Crear y/o buscar</a>
                     </li>
@@ -47,6 +46,9 @@
                             <img src="{{ asset("svg_pack/people.svg") }}" class="svgMenu" width="18" alt="Users"> 
                             Usuarios
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('documentosTipo') }}">Tipo documento</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">

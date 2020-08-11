@@ -44,7 +44,6 @@
     <table style="text-align:center;" class="table table-hover">
     <thead>
         <tr>
-        <th scope="col">#</th>
         <th scope="col">Email</th>
         <th scope="col">Permiso Docs</th>
         <th scope="col">Rol</th>
@@ -55,7 +54,6 @@
     {% for usuario in usuarios %}
         <tbody style="">
             <tr>
-            <th scope="row">{{ loop.index }}</th>
             <td><h6 style="color:#0F9FA8">{{ usuario.email|replace({'@unraf.edu.ar': ''})}}</h6></td>
             <td><h6 style="color:#0F9FA8">{{usuario.accesoDocumentos}}</h6></td>
             {% for rol in usuario.roles %}

@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class BusquedaType extends AbstractType
@@ -15,7 +16,7 @@ class BusquedaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('buscar',TextType::class,array("required"=>false))
+            ->add('buscar',SearchType::class,array("required"=>false))
             ->add('filtrarPor',ChoiceType::class,['choices' =>[
                 'Todos'=>3,
                 'Últimos publicados'=>2,

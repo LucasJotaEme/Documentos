@@ -4,12 +4,39 @@
 
 {% block body %}
     {{ parent() }}
-<div class="">
-    
-    
-    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-
-    {{ form_end(formulario) }}
-    
+<div>
+    <div style="text-align:center;" class="container-fluid">
+        <h3 style="color:#0F9FA8;">Tipo de documento>>Modificar</h3>
+    </div>
+    <div style="padding:40px" class="bordeSombreado">
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+        <div class="row">
+            <div class="col-sm-6">
+                <div style="margin-top: 20px;" class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                            <h5>Nombre:</h5>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ form_widget(formulario.nombre, {attr: {class: 'form-control ancho', placeholder: 'Nombre..'} }) }}  
+                        </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div style="margin-top: 20px;" class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                            <h5>Abreviación:</h5>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ form_widget(formulario.abreviacion, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}  
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid center">
+            {{ form_widget(formulario.Aceptar, {label: 'Modificar' ,attr: {style: 'width:300px;' ,class: 'form-control botonCeleste', placeholder: 'Abreviado..'} }) }}
+        </div>
+        {{ form_end(formulario) }}
+        
+    </div>
 </div>
 {% endblock %}

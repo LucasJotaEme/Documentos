@@ -4,29 +4,59 @@
 
 {% block body %}
     {{ parent() }}
-<div class="">
-    <div id="">
-    {{ form_start(formularioBusqueda, {'enctype':'multipart/form-data'})}}
-
-    {{ form_end(formularioBusqueda) }}
+<div>
+    <div style="text-align:center;" class="container-fluid">
+        <h3 style="color:#0F9FA8;">Tipo de documento</h3>
     </div>
-    
-    <button class="btn btn-primary" id="botonTipoDocumento">Nuevo tipo de documento</button>
-    <div id="divFormTipoDocumento">
-    {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
-
-    {{ form_end(formulario) }}
-    </div>
-    
-    {% for documento in documentos %}
-        {% if documento.nombre != 'Seleccionar' %}
-        <div>
-            <h2>{{documento.nombre}}</h2>
-            <a href="{{ path('modificarDocumentoTipo', {'id': documento.id}) }}">Modificar</a>
-            <a href="{{ path('eliminarDocumentoTipo', {'id': documento.id}) }}">Eliminar</a>
+    <div style="padding:20px;" class="bordeSombreado">
+        <h2 style="color:#0F9FA8;text-align:center;">Busqueda</h2>
+        {{ form_start(formularioBusqueda, {'enctype':'multipart/form-data'})}}
+        <div class="center" style="margin:2px">
+                {{ form_widget(formularioBusqueda.buscar, {attr: {class: 'inputBorder form-control ancho', placeholder: 'Buscar..'} }) }}  
+                {{ form_widget(formularioBusqueda.Buscar, {attr: {class: 'form-control btn botonRosa ancho'} }) }}  
         </div>
-        {% endif %}
-    {% endfor %}
+        {{ form_end(formularioBusqueda) }}
+        
+        <button style="color:#fc447c;" class="btn bordeSombreado" id="botonTipoDocumento"><img src="{{ asset("svg_pack/chevron-bottom.svg") }}" class="" width="18" alt="TD"> Nuevo</button>
+        <div id="divFormTipoDocumento">
+        {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+            <div>
+                <h2 style="color:#0F9FA8;">Nuevo tipo documento</h2>
+                <div style="margin-top: 20px;" class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                            <h5>Nombre:</h5>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ form_widget(formulario.nombre, {attr: {class: 'form-control ancho', placeholder: 'Nombre..'} }) }}  
+                        </div>
+                </div>
+                <div style="margin-top: 20px;" class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                            <h5>Abreviación:</h5>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ form_widget(formulario.abreviacion, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}  
+                        </div>
+                </div>
+                {{ form_widget(formulario.Aceptar, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}
+            </div>
+        {{ form_end(formulario) }}
+        </div>
+        <h3 style="color:#fc447c;margin-top:10px;">Resultados</h3>
+        <div style="padding:20px;">
+            {% for documento in documentos %}
+            {% if documento.nombre != 'Seleccionar' %}
+            <div style="border-left:3px solid #fc447c;">
+                <h3>{{documento.nombre}} #{{documento.abreviacion}}</h3>
+                <a href="{{ path('modificarDocumentoTipo', {'id': documento.id}) }}">Modificar</a>
+                <a href="{{ path('eliminarDocumentoTipo', {'id': documento.id}) }}">Eliminar</a>
+                <hr>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
     
 </div>
 {% endblock %}

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DocumentoController extends AbstractController
 {   
     /**
-     * @Route("/", name="documentos")
+     * @Route("/lector", name="documentos")
      */
     public function index(Request $request)
     {
@@ -59,7 +59,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/documentosObsoletos", name="documentosObsoletos")
+     * @Route("/lector/documentosObsoletos", name="documentosObsoletos")
      */
     public function documentosObsoletos(Request $request)
     {
@@ -74,7 +74,7 @@ class DocumentoController extends AbstractController
     }
 
     /**
-     * @Route("/verPDF/{id}", name="verPDF")
+     * @Route("/lector/verPDF/{id}", name="verPDF")
      */
     public function verPDF(Request $request,$id)
     {
@@ -88,7 +88,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/nuevoDocumento", name="nuevoDocumento")
+     * @Route("/admin/nuevoDocumento", name="nuevoDocumento")
      */
     public function nuevoDocumento(Request $request)
     {
@@ -106,6 +106,7 @@ class DocumentoController extends AbstractController
 
 
         $formulario = $this->createForm(DocumentoType::class,$documento);
+        
         $palabrasBD= $entityManager->getRepository(PalabraClave::class)->findAll();
         $formulario->handleRequest($request);
         $documento = $formulario->getData();
@@ -131,8 +132,7 @@ class DocumentoController extends AbstractController
 
             //Se crea en novedades la nueva novedad
             if ($documento->getPerfil()=="Público"){
-                return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
-                .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId());
+                $this->novedadIntranet($documento,"Nuevo");
             }
             return $this->redirectToRoute('documentos');
         }
@@ -142,6 +142,11 @@ class DocumentoController extends AbstractController
                 'formulario' => $formulario->createView()
             ]);
         }
+    }
+
+    private function novedadIntranet($documento,$estado){
+        return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
+        .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId());
     }
 
     private function crearLog($documento,$estado){
@@ -195,7 +200,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/modificarDocumento/{id}", name="modificarDocumento")
+     * @Route("/admin/modificarDocumento/{id}", name="modificarDocumento")
      */
     public function modificarDocumento(Request $request,$id)
     {
@@ -244,6 +249,11 @@ class DocumentoController extends AbstractController
             $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
 
             $entityManager->flush($documento);
+
+            //Ver si realmente hace falta publicar.
+            if ($documento->getPerfil()=="Público"){
+                $this->novedadIntranet($documento,"Modificado");
+            }
             return $this->redirectToRoute('documentos');
         }
         return $this->render('documento/modificarDocumento.html.twig', [
@@ -252,7 +262,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/eliminarDocumento/{id}/{motivo}", name="eliminarDocumento")
+     * @Route("/admin/eliminarDocumento/{id}/{motivo}", name="eliminarDocumento")
      */
     public function eliminarDocumento(Request $request,$id,$motivo)
     {
@@ -267,7 +277,7 @@ class DocumentoController extends AbstractController
     }
 
     /**
-     * @Route("/eliminarDefinitivo/{id}", name="eliminarDefinitivo")
+     * @Route("/admin/eliminarDefinitivo/{id}", name="eliminarDefinitivo")
      */
     public function eliminarDefinitivo(Request $request,$id)
     {
