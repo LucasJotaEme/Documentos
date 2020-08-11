@@ -128,9 +128,11 @@ class DocumentoController extends AbstractController
             $entityManager->persist($documento);
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
+
+            //Se crea en novedades la nueva novedad
             if ($documento->getPerfil()=="Público"){
                 return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
-                .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo());
+                .$fechaActual->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId());
             }
             return $this->redirectToRoute('documentos');
         }

@@ -9,6 +9,25 @@ use App\Entity\User;
 
 class FuncionesController extends AbstractController
 {
+
+    /**
+     * @Route("/login/{email}", name="app_loginBasico")
+     */
+    public function loginBasico($email)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = null;
+        $user= $em->getRepository(User::class)->find(2);
+        
+        if($user != null){
+            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+            $this->get('security.token_storage')->setToken($token);
+            $this->get('session')->set('_security_main', serialize($token));
+        }
+        
+        return $this->redirectToRoute('documentos');
+    }
+
     /**
      * @Route("/login/{email}/{rolForm}/{estado}", name="app_login")
      */
