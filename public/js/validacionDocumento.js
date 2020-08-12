@@ -37,7 +37,7 @@ function direccionarParaObsoletear(){
     var inputObsoleto= document.getElementById('inputObsoleto');
 
     if (inputObsoleto.value.length >= 10){
-        location.href ="http://localhost/Documentos/public/index.php/eliminarDocumento/" + idObsoleto + "/" + inputObsoleto.value;
+        location.href ="http://localhost/Documentos/public/index.php/admin/eliminarDocumento/" + idObsoleto + "/" + inputObsoleto.value;
     }else{
         mensajeMotivo.style.color="red";
         mensajeMotivo.innerHTML="Mínimo 10 caracteres.";

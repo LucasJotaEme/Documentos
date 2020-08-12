@@ -13,6 +13,12 @@
     color:white;
 }
 
+.divBuscar{
+    padding-left:50px;
+    padding-right:50px;
+    padding-top:40px;
+    padding-bottom:10px;
+}
 .degrade{
     /*background-image: linear-gradient(to right,white,white,white,#bebebe);*/
 }
@@ -39,6 +45,7 @@
     -webkit-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
     -moz-box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
     box-shadow: 5px 2px 14px -1px rgba(0,0,0,0.30);
+    border: 1px solid #8CCACE;
 }
 
 .ancho{
