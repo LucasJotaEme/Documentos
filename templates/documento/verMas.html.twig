@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documentos UNRaf{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+<a class="btn btn-light bordeSombreado" style="color:#306086" href="{{path('documentos')}}"><img src="{{ asset("svg/reply.svg") }}" alt="Imagen documento">Volver al menú</a>
+<div style="padding:30px;">
+    <div style="text-align:center;margin-top:10px;" class="container-fluid bordeSombreado divEspaciado">
+        <h3 style="color:#0F9FA8;"><img src="{{ asset("svg/documento.svg") }}" width="30" class="svgMenu" alt="Documento"></img>Documento N° <b>{{documento.numero}}</b></h3>
+        <hr>
+        <h5 style="text-align:left;color:#0F9FA8;">Datos</h5>
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Fecha de creación:</h5><h6>{{documento.fechaCreacion|date('d/m/Y')}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Fecha de publicación:</h5><h6>{{documento.fechaPublicacion|date('d/m/Y')}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Fecha de caducidad:</h5><h6>{{documento.fechaCaducidad|date('d/m/Y')}}</h6>
+            </div>
+        </div>
+        <hr style="background-color:#0F9FA8;">
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Título:</h5><h6>{{documento.titulo}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Descripción:</h5><h6>{{documento.descripcion}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Perfil:</h5><h6>{{documento.perfil}}</h6>
+            </div>
+        </div>
+        <hr style="background-color:#0F9FA8;">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Versión:</h5><h6>{{documento.numeroVersion}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Estado:</h5><h6>{{documento.estado}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Visitas:</h5><h6>{{documento.vistos}}</h6>
+            </div>
+        </div>
+        <hr style="background-color:#0F9FA8;">
+        <h5 style="text-align:left;color:#0F9FA8;;">Modificaciones</h5>
+        {% if documento.fechaModificacion != null %}
+
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Última fecha de modificación:</h5><h6>{{documento.fechaModificacion|date('d/m/Y')}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Versión anterior:</h5><h6>{{documento.versionAnterior}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>Visitas:</h5><h6>{{documento.vistos}}</h6>
+            </div>
+        </div>
+        <hr style="background-color:#0F9FA8;">
+        {% else %} 
+        <h5 style="text-align:left;color:grey;">Este documento aún no ha sido modificado.</h5>
+        {% endif %}
+
+        {% if documento.estado == "Baja" %}
+        <h5 style="text-align:left;color:#0F9FA8;;">Baja</h5>
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>Motivo:</h5><h6>{{documento.motivo}}</h6>
+            </div>
+        </div>
+        <hr style="background-color:#0F9FA8;">
+        {% endif %}
+        
+    </div>
+</div>
+{% endblock %}
+

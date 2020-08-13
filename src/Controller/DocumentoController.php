@@ -129,7 +129,7 @@ class DocumentoController extends AbstractController
             $entityManager->persist($documento);
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
-
+            $this->addFlash('correcto', 'Se creó un nuevo documento.');
             //Se crea en novedades la nueva novedad
             if ($documento->getPerfil()=="Público"){
                 $this->novedadIntranet($documento,"Nuevo");
@@ -249,11 +249,11 @@ class DocumentoController extends AbstractController
             $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
 
             $entityManager->flush($documento);
-
+            $this->addFlash('correcto', 'Se modificó el documento correctamente.');
             //Ver si realmente hace falta publicar.
-            if ($documento->getPerfil()=="Público"){
-                $this->novedadIntranet($documento,"Modificado");
-            }
+            //if ($documento->getPerfil()=="Público"){
+            //    $this->novedadIntranet($documento,"Modificado");
+            //}
             return $this->redirectToRoute('documentos');
         }
         return $this->render('documento/modificarDocumento.html.twig', [
@@ -272,7 +272,7 @@ class DocumentoController extends AbstractController
         $documento->setEstado("Baja");
         $documento->setMotivoObsoleto($motivo);
         $entityManager->flush();      
-        //$this->addFlash('correcto', 'Se ha dado de baja correctamente');      
+        $this->addFlash('correcto', 'Se dio de baja el documento.');      
         return $this->redirectToRoute('documentos');
     }
 
@@ -288,6 +288,21 @@ class DocumentoController extends AbstractController
         $entityManager->flush();      
         //$this->addFlash('correcto', 'Se ha dado de baja correctamente');      
         return $this->redirectToRoute('documentos');
+    }
+
+    /**
+     * @Route("/lector/masDocumento/{id}", name="verMas")
+     */
+    public function masDocumento(Request $request,$id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $documento = $entityManager->getRepository(Documento::class)->find($id);
+
+        return $this->render('documento/verMas.html.twig', [
+            'documento' => $documento
+        ]);
+        
     }
 
     //--------------- CONSULTAS A PATA ----------------

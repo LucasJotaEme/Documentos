@@ -27,7 +27,7 @@
     </div>
     {{ form_end(formulario) }}
     <div style="text-align:center;">
-        <a href="{{path('documentos')}}"><img src="{{ asset("svg/plus-circle.svg") }}" width="30" alt="Busqueda Avanzada"></a>
+        <a href="{{path('documentos')}}"><img src="{{ asset("svg/plus-circle.svg") }}" width="30" alt="Busqueda Avanzada"><p style="color:red;">Busqueda Avanzada: En desarrollo</p></a>
     </div>
 </div>
 <br>
@@ -38,7 +38,7 @@
     {# Comienza tabla #}
     <div  style="max-width: 1200px;
     overflow-x: scroll;">
-    <table class="table  table-hover"
+    <table class="table  table-hover bordeSombreado"
         <thead>
           <tr style="background-color:#0F9FA8;color:white;text-align:center;">
             <th scope="col">Tipo</th>
@@ -49,6 +49,7 @@
             <th scope="col">Acceso</th>
             <th scope="col">PDF</th>
             <th scope="col">-</th>
+            <th scope="col">Más</th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +65,7 @@
                 <td><a class="btn btn-light" href="{{ path('verPDF', {'id': documento.id}) }}"><img src="{{ asset("svg/verPdf.svg") }}" class="svgMenu" alt="PDF">Ver</a></td>
                 <td>
                     {% if documento.estado=="Alta" %}
-                        <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}"><img src="{{ asset("svg_pack/pencil.svg") }}" width="18" class="svgMenu" alt="Modificar"></a>
+                        <a class="btn btn-success" href="{{ path('modificarDocumento', {'id': documento.id}) }}"><img src="{{ asset("svg/pencil.svg") }}" class="svgMenu" alt="Modificar"></a>
                         <a class="btn btn-danger" onclick="idObsoletear({{documento.id}})" data-toggle="modal" href="#ventanaModal"><img src="{{ asset("svg/trash.svg") }}" class="svgMenu" alt="Basura"></a>
                         {# Modal para cuando se basurea el documento. #}
                         <div class="modal fade" id="ventanaModal">
@@ -93,10 +94,9 @@
                             </div>
                         </div>
                         {# .... #}
-                    {% else %}
-                        <a class="btn btn-danger" href="{{ path('eliminarDefinitivo', {'id': documento.id}) }}">Definitivo</a>
                     {% endif %}
                 </td>
+                <td><a class="btn botonCeleste" href="{{ path('verMas', {'id': documento.id}) }}"><img src="{{ asset("svg/plus.svg") }}" title="Ver más" class="svgMenu" alt="Modificar"></a></td>
             </tr>
             {% endif %}
             {% else %}
