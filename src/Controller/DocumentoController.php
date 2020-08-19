@@ -54,7 +54,7 @@ class DocumentoController extends AbstractController
             
             return $this->getConsultaObsoletos($busqueda);
         }else{
-            return $this->getConsultaTodos($busqueda);
+            return $this->getConsultaTodos($busqueda);//Todos
         }
     }
     
@@ -371,10 +371,9 @@ class DocumentoController extends AbstractController
         $query = $manager->createQuery(
         "SELECT c
         FROM App\Entity\Documento c
-        WHERE c.numero LIKE :numero
-        ORDER BY c.id DESC
+        WHERE (c.numero LIKE :campo) OR (c.titulo LIKE :campo) OR (c.anio LIKE :campo) OR (c.perfil LIKE :campo)
         "
-        )->setParameter('numero','%'. $busqueda->getBuscar().'%');
+        )->setParameter('campo','%'. $busqueda->getBuscar().'%');
         
         //Límite de resultados..
         $query->setMaxResults(100);
