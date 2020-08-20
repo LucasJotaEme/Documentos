@@ -88,7 +88,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/admin/nuevoDocumento", name="nuevoDocumento")
+     * @Route("/editor/nuevoDocumento", name="nuevoDocumento")
      */
     public function nuevoDocumento(Request $request)
     {
@@ -129,10 +129,9 @@ class DocumentoController extends AbstractController
             $entityManager->persist($documento);
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
-            $this->addFlash('correcto', 'Se creó un nuevo documento.');
             //Se crea en novedades la nueva novedad
             if ($documento->getPerfil()=="Público"){
-                $this->novedadIntranet($documento,"Nuevo");
+                $this->novedadIntranet($documento);
             }
             return $this->redirectToRoute('documentos');
         }
@@ -144,9 +143,10 @@ class DocumentoController extends AbstractController
         }
     }
 
-    private function novedadIntranet($documento,$estado){
-        return $this->redirect("http://localhost/Intranet/public/index.php/novedad/"
-        .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId());
+    private function novedadIntranet($documento){
+        $url ="http://localhost/Intranet/public/index.php/novedad/" .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId();
+        $this->addFlash('correcto', $url);
+        return $this->redirect($url);
     }
 
     private function crearLog($documento,$estado){
@@ -200,7 +200,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/admin/modificarDocumento/{id}", name="modificarDocumento")
+     * @Route("/editor/modificarDocumento/{id}", name="modificarDocumento")
      */
     public function modificarDocumento(Request $request,$id)
     {
@@ -262,7 +262,7 @@ class DocumentoController extends AbstractController
     }
     
     /**
-     * @Route("/admin/eliminarDocumento/{id}/{motivo}", name="eliminarDocumento")
+     * @Route("/editor/eliminarDocumento/{id}/{motivo}", name="eliminarDocumento")
      */
     public function eliminarDocumento(Request $request,$id,$motivo)
     {
@@ -277,7 +277,7 @@ class DocumentoController extends AbstractController
     }
 
     /**
-     * @Route("/admin/eliminarDefinitivo/{id}", name="eliminarDefinitivo")
+     * @Route("/editor/eliminarDefinitivo/{id}", name="eliminarDefinitivo")
      */
     public function eliminarDefinitivo(Request $request,$id)
     {

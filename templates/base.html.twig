@@ -30,11 +30,13 @@
                 
                 <ul class="navbar-nav animate side-nav">
                     {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_EDITOR') %}
                     <li id="menuDocumento" class="nav-item">
                         <a class="nav-link" href="#">
                             <img src="{{ asset("svg/documento.svg") }}" class="svgMenu" alt="Imagen documento"> Documentos
                         </a>
                     </li>
+                    {% endif %}
                     <li id="documentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('nuevoDocumento') }}">Crear</a>
                     </li>
@@ -51,24 +53,28 @@
                         <a class="nav-link" href="{{ path('documentosTipo') }}">Tipo documento</a>
                     </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" style="background-color:#0F9FA8;color:white;" href="{{ path('backIntranet') }}">
-                        <img src="{{ asset("svg/sign-out.svg") }}" class="svgMenu" width="18" alt="Sign-out"> 
-                        Volver a intranet</a>
-                    </li>
                 </ul>   
                 
                 <ul class="navbar-nav ml-md-auto d-md-flex">
-                    <li class="nav-item">
+                    <li class="nav-item dropdown">
                         {% set rolPrincipal = "" %}
                         {% for rol in app.user.roles %}
                             {% if loop.last %}
                                 {% set rolPrincipal =  rol %}
                             {% endif %}
                         {% endfor %}
-                        <button type="button" class="btn btn-light" style="color:grey;" data-container="body" data-toggle="popover" data-placement="bottom" data-content="PERFIL: {{rolPrincipal}}">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="{{ asset("svg_pack/person.svg") }}" class="svg" width="18" alt="P"> {{app.user.email}}
-                        </button>
+                        </a>                            
+                        
+                        <div class="dropdown-menu itemMenu" aria-labelledby="navbarDropdownMenuLink">
+                            {#<h6 class="nav-link" style="color:#fc447c;">ROL: {{rolPrincipal}}</h6>#}
+                            <a class="nav-link" style="background-color:#0F9FA8;color:white;" href="{{ path('backIntranet') }}">
+                            <img src="{{ asset("svg/sign-out.svg") }}" class="svgMenu" width="18" alt="Sign-out"> 
+                            Ir a intranet</a>
+                        </div>
+                        
+                        
                     </li>
                     {#
                     <li class="nav-item">
@@ -80,7 +86,9 @@
                 </ul>
             </div>
         </nav>
-
+        <div class="">
+            <h6 style="color:grey;">Mi rol: {{rolPrincipal}}</h6>
+        </div>
         {% for message in app.flashes('correcto') %}
                 <div id="notificacion" class="container alert alert-success">
                     {{ message }}
