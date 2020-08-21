@@ -29,17 +29,18 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 
                 <ul class="navbar-nav animate side-nav">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    {% if is_granted('ROLE_EDITOR') %}
+		    {% if is_granted('ROLE_EDITOR') %}
                     <li id="menuDocumento" class="nav-item">
                         <a class="nav-link" href="#">
                             <img src="{{ asset("svg/documento.svg") }}" class="svgMenu" alt="Imagen documento"> Documentos
                         </a>
                     </li>
-                    {% endif %}
-                    <li id="documentoToggle" class="nav-item">
+		    <li id="documentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('nuevoDocumento') }}">Crear</a>
                     </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    
                     <li id="tipoDocumentoToggle" class="nav-item">
                         <a class="nav-link" style="background-color:#f1f1f0;" href="{{ path('documentosTipo') }}">Crear y/o buscar</a>
                     </li>
