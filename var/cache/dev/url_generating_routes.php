@@ -28,8 +28,10 @@ return [
     'modificarDocumentoTipo' => [['id'], ['_controller' => 'App\\Controller\\DocumentoTipoController::modificarDocumento'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/modificarDocumentoTipo']], [], []],
     'eliminarDocumentoTipo' => [['id'], ['_controller' => 'App\\Controller\\DocumentoTipoController::eliminarDocumento'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/eliminarDocumentoTipo']], [], []],
     'app_loginBasico' => [['email'], ['_controller' => 'App\\Controller\\FuncionesController::loginBasico'], [], [['variable', '/', '[^/]++', 'email', true], ['text', '/login']], [], []],
-    'app_login' => [['email', 'rolForm', 'estado'], ['_controller' => 'App\\Controller\\FuncionesController::login'], [], [['variable', '/', '[^/]++', 'estado', true], ['variable', '/', '[^/]++', 'rolForm', true], ['variable', '/', '[^/]++', 'email', true], ['text', '/login']], [], []],
+    'app_loginPrincipal' => [['email', 'rolForm', 'estado'], ['_controller' => 'App\\Controller\\FuncionesController::login'], [], [['variable', '/', '[^/]++', 'estado', true], ['variable', '/', '[^/]++', 'rolForm', true], ['variable', '/', '[^/]++', 'email', true], ['text', '/login']], [], []],
     'backIntranet' => [[], ['_controller' => 'App\\Controller\\FuncionesController::backIntranet'], [], [['text', '/back']], [], []],
+    'app_login' => [[], ['_controller' => 'App\\Controller\\SecurityController::login'], [], [['text', '/login']], [], []],
+    'app_logout' => [[], ['_controller' => 'App\\Controller\\SecurityController::logout'], [], [['text', '/logout']], [], []],
     'usuarios' => [[], ['_controller' => 'App\\Controller\\UsuarioController::usuarios'], [], [['text', '/admin/usuarios']], [], []],
     'modificarUser' => [['id'], ['_controller' => 'App\\Controller\\UsuarioController::modificarUser'], [], [['text', '/'], ['variable', '/', '[^/]++', 'id', true], ['text', '/admin/modificarUser']], [], []],
 ];

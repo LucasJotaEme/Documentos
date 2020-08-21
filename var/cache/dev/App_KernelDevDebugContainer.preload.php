@@ -5,8 +5,8 @@
 
 use Symfony\Component\DependencyInjection\Dumper\Preloader;
 
-require dirname(__DIR__, 3).'/vendor/autoload.php';
-require __DIR__.'/Container4v4hUJz/App_KernelDevDebugContainer.php';
+require dirname(__DIR__, 3).'\\vendor/autoload.php';
+require __DIR__.'/ContainerNntzUvp/App_KernelDevDebugContainer.php';
 
 $classes = [];
 $classes[] = 'Symfony\Bundle\FrameworkBundle\FrameworkBundle';
@@ -29,6 +29,7 @@ $classes[] = 'Symfony\Component\DependencyInjection\ServiceLocator';
 $classes[] = 'App\Controller\DocumentoController';
 $classes[] = 'App\Controller\DocumentoTipoController';
 $classes[] = 'App\Controller\FuncionesController';
+$classes[] = 'App\Controller\SecurityController';
 $classes[] = 'App\Controller\UsuarioController';
 $classes[] = 'App\Form\BusquedaTipoType';
 $classes[] = 'App\Form\BusquedaType';
@@ -41,6 +42,7 @@ $classes[] = 'App\Repository\DocumentoRepository';
 $classes[] = 'App\Repository\DocumentoTipoRepository';
 $classes[] = 'App\Repository\PalabraClaveRepository';
 $classes[] = 'App\Repository\UserRepository';
+$classes[] = 'App\Security\SecurityControllerAuthenticator';
 $classes[] = 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController';
 $classes[] = 'Symfony\Bundle\FrameworkBundle\Controller\TemplateController';
 $classes[] = 'Symfony\Component\Cache\DoctrineProvider';
@@ -318,8 +320,13 @@ $classes[] = 'Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault';
 $classes[] = 'Symfony\Component\Security\Http\Firewall\AccessListener';
 $classes[] = 'Symfony\Component\Security\Http\AccessMap';
 $classes[] = 'Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener';
+$classes[] = 'Symfony\Component\Security\Guard\Firewall\GuardAuthenticationListener';
+$classes[] = 'Symfony\Component\Security\Guard\GuardAuthenticatorHandler';
+$classes[] = 'Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy';
 $classes[] = 'Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager';
 $classes[] = 'Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider';
+$classes[] = 'Symfony\Component\Security\Guard\Provider\GuardAuthenticationProvider';
+$classes[] = 'Symfony\Component\Security\Core\User\UserChecker';
 $classes[] = 'Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver';
 $classes[] = 'Symfony\Component\Security\Http\Authentication\AuthenticationUtils';
 $classes[] = 'Symfony\Component\Security\Core\Authorization\AuthorizationChecker';

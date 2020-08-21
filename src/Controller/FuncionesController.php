@@ -29,7 +29,7 @@ class FuncionesController extends AbstractController
     }
 
     /**
-     * @Route("/login/{email}/{rolForm}/{estado}", name="app_login")
+     * @Route("/login/{email}/{rolForm}/{estado}", name="app_loginPrincipal")
      */
     public function login($email,$rolForm,$estado)
     {

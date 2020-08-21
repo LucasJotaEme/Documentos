@@ -19,6 +19,8 @@ return [
         '/admin/tipoDocumentos' => [[['_route' => 'documentosTipo', '_controller' => 'App\\Controller\\DocumentoTipoController::index'], null, null, null, false, false, null]],
         '/admin/nuevoDocumentoTipo' => [[['_route' => 'nuevoDocumentoTipo', '_controller' => 'App\\Controller\\DocumentoTipoController::nuevoDocumentoTipo'], null, null, null, false, false, null]],
         '/back' => [[['_route' => 'backIntranet', '_controller' => 'App\\Controller\\FuncionesController::backIntranet'], null, null, null, false, false, null]],
+        '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\SecurityController::login'], null, null, null, false, false, null]],
+        '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\SecurityController::logout'], null, null, null, false, false, null]],
         '/admin/usuarios' => [[['_route' => 'usuarios', '_controller' => 'App\\Controller\\UsuarioController::usuarios'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -75,7 +77,7 @@ return [
         198 => [[['_route' => 'verPDF', '_controller' => 'App\\Controller\\DocumentoController::verPDF'], ['id'], null, null, false, true, null]],
         227 => [[['_route' => 'verMas', '_controller' => 'App\\Controller\\DocumentoController::masDocumento'], ['id'], null, null, false, true, null]],
         252 => [[['_route' => 'app_loginBasico', '_controller' => 'App\\Controller\\FuncionesController::loginBasico'], ['email'], null, null, false, true, null]],
-        278 => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\FuncionesController::login'], ['email', 'rolForm', 'estado'], null, null, false, true, null]],
+        278 => [[['_route' => 'app_loginPrincipal', '_controller' => 'App\\Controller\\FuncionesController::login'], ['email', 'rolForm', 'estado'], null, null, false, true, null]],
         326 => [[['_route' => 'modificarDocumento', '_controller' => 'App\\Controller\\DocumentoController::modificarDocumento'], ['id'], null, null, false, true, null]],
         372 => [[['_route' => 'eliminarDocumento', '_controller' => 'App\\Controller\\DocumentoController::eliminarDocumento'], ['id', 'motivo'], null, null, false, true, null]],
         398 => [[['_route' => 'eliminarDefinitivo', '_controller' => 'App\\Controller\\DocumentoController::eliminarDefinitivo'], ['id'], null, null, false, true, null]],
