@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\encriptado;
 
 class FuncionesController extends AbstractController
 {
@@ -16,16 +17,21 @@ class FuncionesController extends AbstractController
     public function loginBasico($email)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = null;
-        $user= $em->getRepository(User::class)->find(2);
+        $users = null;
+        $users= $em->getRepository(User::class)->findBy(
+		['email' => $email]
+	);
         
-        if($user != null){
-            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-            $this->get('security.token_storage')->setToken($token);
-            $this->get('session')->set('_security_main', serialize($token));
+        if($users != null){
+	    foreach ($users as  $user){
+	    	$token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+            	$this->get('security.token_storage')->setToken($token);
+            	$this->get('session')->set('_security_main', serialize($token));	
+		        return $this->redirectToRoute('documentos');
+   	    }
         }
-        
-        return $this->redirectToRoute('documentos');
+	        return $this->redirectToRoute('documentos');        
+
     }
 
     /**
@@ -112,10 +118,11 @@ class FuncionesController extends AbstractController
      */
     public function backIntranet()
     {
+	$encriptado = new encriptado();
         $user = $this->getUser();
         
         if ($user != null){
-            $url= "http://intranet.unraf.edu.ar/Intranet/public/index.php/login/" . $user->getEmail();    
+            $url= "http://intranet.unraf.edu.ar/Intranet/public/index.php/login/" . $encriptado->encriptar($user->getEmail());    
         }else{
             $url= "http://intranet.unraf.edu.ar/Intranet/public/index.php/login/";    
         }
