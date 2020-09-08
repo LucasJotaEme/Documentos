@@ -84,7 +84,7 @@ class DocumentoController extends AbstractController
         $documento->setVistos($documento->getVistos()+1);
         $entityManager->flush($documento);
         
-        return $this->redirect("http://intranet/Documentos/public/uploads/".$documento->getPath());
+        return $this->redirect("http://intranet.unraf.edu.ar/Documentos/public/uploads/".$documento->getPath());
     }
     
     /**
@@ -135,10 +135,16 @@ class DocumentoController extends AbstractController
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
             //Se crea en novedades la nueva novedad
+<<<<<<< HEAD
 	    $this->addFlash('correcto', "Se creï¿½ correctamente el documento");
+=======
+>>>>>>> dfd16b9318839625dbe91028f1cd3ffde1f2d962
             if ($documento->getPerfil()=="PÃºblico"){
-                $this->novedadIntranet($documento);
+	        $url ="http://intranet.unraf.edu.ar/Intranet/public/index.php/novedad/" .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getEmail();
+        	//$this->addFlash('correcto', $url);
+        	return $this->redirect($url);
             }
+	    //$this->addFlash('correcto', "Se creó correctamente el documento");
             return $this->redirectToRoute('documentos');
         }
         else{
@@ -151,7 +157,7 @@ class DocumentoController extends AbstractController
 
     private function novedadIntranet($documento){
         $url ="http://intranet.unraf.edu.ar/Intranet/public/index.php/novedad/" .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getId();
-
+        //$this->addFlash('correcto', $url);
         return $this->redirect($url);
     }
 
