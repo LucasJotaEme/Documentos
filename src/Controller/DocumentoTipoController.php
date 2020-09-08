@@ -8,7 +8,10 @@ use App\Entity\DocumentoTipo;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\DocumentoTipoType;
 use App\Form\BusquedaTipoType;
+use App\Form\GrupoType;
 use App\Entity\Busqueda;
+use App\Entity\Grupo;
+
 
 class DocumentoTipoController extends AbstractController
 {
@@ -18,16 +21,19 @@ class DocumentoTipoController extends AbstractController
     public function index(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
+
+        //Formulario de busqueda tipo Documento
         $formularioBusqueda = $this->createForm(BusquedaTipoType::class,new Busqueda());
         
-        $documentosTipo= $entityManager->getRepository(DocumentoTipo::class)->findBy(
-        array('estado' => 'Alta'));
+        //Datos para modificar y eliminar
+        $grupos= $entityManager->getRepository(Grupo::class)->findAll();
         
         $documentoTipo = new DocumentoTipo();
         
         $formularioBusqueda->handleRequest($request);
         $busqueda=$formularioBusqueda->getData();
         
+        //Formulario para crear un nuevo tipo documento
         $formulario = $this->createForm(DocumentoTipoType::class,$documentoTipo);
         $formulario->handleRequest($request);
         
@@ -38,23 +44,22 @@ class DocumentoTipoController extends AbstractController
             $documentoTipo->setEstado('Alta');
             $entityManager->persist($documentoTipo);
             $entityManager->flush();
-            $documentosTipo= $entityManager->getRepository(DocumentoTipo::class)->findBy(
-            array('estado' => 'Alta'));
+            $grupos= $entityManager->getRepository(Grupo::class)->findAll();
             
             return $this->render('documento_tipo/documentosTipo.html.twig', [
-            'documentos' => $documentosTipo,
+            'grupos' => $grupos,
             'formulario' => $formulario->createView(),
             'formularioBusqueda' => $formularioBusqueda->createView()
             ]);
         }else if ($formularioBusqueda->isSubmitted()){
             
             return $this->render('documento_tipo/documentosTipo.html.twig', [
-            'documentos' => $this->buscarDocumento($busqueda),'formulario' => $formulario->createView(),'formularioBusqueda' => $formularioBusqueda->createView()
+            'grupos' => $this->buscarDocumento($busqueda),'formulario' => $formulario->createView(),'formularioBusqueda' => $formularioBusqueda->createView()
         ]);
         }else{
         
         return $this->render('documento_tipo/documentosTipo.html.twig', [
-            'documentos' => $documentosTipo,
+            'grupos' => $grupos,
             'formulario' => $formulario->createView(),
             'formularioBusqueda' => $formularioBusqueda->createView()
         ]);
@@ -65,20 +70,22 @@ class DocumentoTipoController extends AbstractController
         
         $manager=$this->getDoctrine()->getManager();
         
-        $query = $manager->createQuery(
-        "SELECT c
-        FROM App\Entity\documentoTipo c
-        WHERE c.nombre LIKE :numero AND c.estado = 'Alta'
-        ORDER BY c.id DESC
-        "
-        )->setParameter('numero',$busqueda->getBuscar().'%');
         
-        //Límite de resultados..
-        $query->setMaxResults(100);
-        
-        //Retorna busqueda de la compra..
-        return $query->getResult();
+        $grupos = $manager->getRepository(Grupo::class)->createQueryBuilder('g')
+        ->addSelect('g')
+        ->where('g.nombre LIKE :nombre')
+        ->orWhere('td.nombre LIKE :nombre')
+        ->innerJoin('g.tipoDocumento', 'td')
+        ->orderBy('g.nombre', 'ASC')
+        ->groupBy('g.id')
+        ->setParameter('nombre', $busqueda->getBuscar()."%")
+        ->getQuery()
+        ->getResult()
+;
+        return $grupos;
     }
+
+
 
     
     /**
@@ -100,7 +107,7 @@ class DocumentoTipoController extends AbstractController
             $entityManager->persist($documentoTipo);
             $entityManager->flush();
             $this->addFlash('correcto', 'Se creó un nuevo tipo de documento');
-            return $this->redirectToRoute();
+            return $this->redirectToRoute('documentosTipo');
         }else{
             return $this->render('documento_tipo/documentosTipo.html.twig', [
                 'formulario' => $formulario->createView()

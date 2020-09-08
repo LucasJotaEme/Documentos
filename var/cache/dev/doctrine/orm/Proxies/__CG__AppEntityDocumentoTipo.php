@@ -66,10 +66,10 @@ class DocumentoTipo extends \App\Entity\DocumentoTipo implements \Doctrine\ORM\P
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'id', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'nombre', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'abreviacion', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'estado', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'Documento'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'id', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'nombre', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'abreviacion', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'estado', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'Documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'grupo'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'id', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'nombre', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'abreviacion', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'estado', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'Documento'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'id', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'nombre', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'abreviacion', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'estado', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'Documento', '' . "\0" . 'App\\Entity\\DocumentoTipo' . "\0" . 'grupo'];
     }
 
     /**
@@ -299,6 +299,28 @@ class DocumentoTipo extends \App\Entity\DocumentoTipo implements \Doctrine\ORM\P
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeDocumento', [$documento]);
 
         return parent::removeDocumento($documento);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getGrupo(): ?\App\Entity\Grupo
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getGrupo', []);
+
+        return parent::getGrupo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setGrupo(?\App\Entity\Grupo $grupo): \App\Entity\DocumentoTipo
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setGrupo', [$grupo]);
+
+        return parent::setGrupo($grupo);
     }
 
 }

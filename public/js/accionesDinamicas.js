@@ -4,8 +4,15 @@ $( document ).ready(function() {
     var tipoDocumentoToggle= $("#tipoDocumentoToggle").hide();
     var menuDocumento= $("#menuDocumento");
     var menuTipoDocumento= $("#menuTipoDocumento");
+    var fechaCaducidad= $('#fechaCaducidad').hide();
+    var agregarFecha= $('#documento_agregarFecha');
     
     
+    //Fecha caducidad
+    agregarFecha.on('click', function(e) {
+        fechaCaducidad.slideToggle();
+    });
+
     //Tipo de documentos
     
     menuDocumento.on('click', function(e) {

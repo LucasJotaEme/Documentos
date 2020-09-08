@@ -6,7 +6,7 @@
 use Symfony\Component\DependencyInjection\Dumper\Preloader;
 
 require dirname(__DIR__, 3).'\\vendor/autoload.php';
-require __DIR__.'/ContainerNntzUvp/App_KernelDevDebugContainer.php';
+require __DIR__.'/ContainerSZemKTT/App_KernelDevDebugContainer.php';
 
 $classes = [];
 $classes[] = 'Symfony\Bundle\FrameworkBundle\FrameworkBundle';
@@ -29,6 +29,7 @@ $classes[] = 'Symfony\Component\DependencyInjection\ServiceLocator';
 $classes[] = 'App\Controller\DocumentoController';
 $classes[] = 'App\Controller\DocumentoTipoController';
 $classes[] = 'App\Controller\FuncionesController';
+$classes[] = 'App\Controller\GrupoController';
 $classes[] = 'App\Controller\SecurityController';
 $classes[] = 'App\Controller\UsuarioController';
 $classes[] = 'App\Form\BusquedaTipoType';
@@ -37,9 +38,11 @@ $classes[] = 'App\Form\BusquedaUserType';
 $classes[] = 'App\Form\DocumentoModificarType';
 $classes[] = 'App\Form\DocumentoTipoType';
 $classes[] = 'App\Form\DocumentoType';
+$classes[] = 'App\Form\GrupoType';
 $classes[] = 'App\Form\UserType';
 $classes[] = 'App\Repository\DocumentoRepository';
 $classes[] = 'App\Repository\DocumentoTipoRepository';
+$classes[] = 'App\Repository\GrupoRepository';
 $classes[] = 'App\Repository\PalabraClaveRepository';
 $classes[] = 'App\Repository\UserRepository';
 $classes[] = 'App\Security\SecurityControllerAuthenticator';

@@ -30,6 +30,7 @@ return [
     'app_loginBasico' => [['email'], ['_controller' => 'App\\Controller\\FuncionesController::loginBasico'], [], [['variable', '/', '[^/]++', 'email', true], ['text', '/login']], [], []],
     'app_loginPrincipal' => [['email', 'rolForm', 'estado'], ['_controller' => 'App\\Controller\\FuncionesController::login'], [], [['variable', '/', '[^/]++', 'estado', true], ['variable', '/', '[^/]++', 'rolForm', true], ['variable', '/', '[^/]++', 'email', true], ['text', '/login']], [], []],
     'backIntranet' => [[], ['_controller' => 'App\\Controller\\FuncionesController::backIntranet'], [], [['text', '/back']], [], []],
+    'nuevoGrupo' => [[], ['_controller' => 'App\\Controller\\GrupoController::nuevoGrupo'], [], [['text', '/admin/nuevoGrupo']], [], []],
     'app_login' => [[], ['_controller' => 'App\\Controller\\SecurityController::login'], [], [['text', '/login']], [], []],
     'app_logout' => [[], ['_controller' => 'App\\Controller\\SecurityController::logout'], [], [['text', '/logout']], [], []],
     'usuarios' => [[], ['_controller' => 'App\\Controller\\UsuarioController::usuarios'], [], [['text', '/admin/usuarios']], [], []],

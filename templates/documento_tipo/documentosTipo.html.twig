@@ -12,11 +12,11 @@
         <h2 style="color:#0F9FA8;text-align:center;">Busqueda</h2>
         {{ form_start(formularioBusqueda, {'enctype':'multipart/form-data'})}}
         <div class="center" style="margin:2px">
-                {{ form_widget(formularioBusqueda.buscar, {attr: {class: 'inputBorder form-control ancho', placeholder: 'Buscar..'} }) }}  
+                {{ form_widget(formularioBusqueda.buscar, {attr: {class: 'inputBorder form-control ancho', placeholder: 'Buscar por grupo o tipo de documento'} }) }}  
                 {{ form_widget(formularioBusqueda.Buscar, {attr: {class: 'form-control btn botonRosa ancho'} }) }}  
         </div>
         {{ form_end(formularioBusqueda) }}
-        
+        <a href="{{ path('nuevoGrupo') }}" style="color:white;background-color:#306086 ;" class="btn" ><img src="{{ asset("svg_pack/plus.svg") }}" class="" width="15" alt="Grupo"> Nuevo grupo</a>
         <button style="color:#fc447c;" class="btn bordeSombreado" id="botonTipoDocumento"><img src="{{ asset("svg_pack/chevron-bottom.svg") }}" class="" width="18" alt="TD"> Nuevo</button>
         <div id="divFormTipoDocumento">
         {{ form_start(formulario, {'enctype':'multipart/form-data'})}}
@@ -38,21 +38,36 @@
                             {{ form_widget(formulario.abreviacion, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}  
                         </div>
                 </div>
+                <div style="margin-top: 20px;" class="form-group row">
+                        <div class="col-sm-3 col-form-label">
+                            <h5>Grupo:</h5>
+                        </div>
+                        <div class="col-sm-9">
+                            {{ form_widget(formulario.grupo, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}  
+                        </div>
+                </div>
                 {{ form_widget(formulario.Aceptar, {attr: {class: 'form-control ancho', placeholder: 'Abreviado..'} }) }}
             </div>
         {{ form_end(formulario) }}
         </div>
+        
         <h3 style="color:#fc447c;margin-top:10px;">Resultados</h3>
-        <div style="padding:20px;">
-            {% for documento in documentos %}
-            {% if documento.nombre != 'Seleccionar' %}
-            <div style="border-left:3px solid #fc447c;">
-                <h3>{{documento.nombre}} #{{documento.abreviacion}}</h3>
-                <a href="{{ path('modificarDocumentoTipo', {'id': documento.id}) }}">Modificar</a>
-                <a href="{{ path('eliminarDocumentoTipo', {'id': documento.id}) }}">Eliminar</a>
-                <hr>
+        <div style="padding:10px;">
+            {% for grupo in grupos %}
+            <h3>{{grupo.nombre}}</h3>
+            <div style="">
+                {% for tipoDocumento in grupo.tipoDocumento %}
+
+                    {% if tipoDocumento.nombre != 'Seleccionar' and tipoDocumento.estado == 'Alta' %}
+                    <div style="border-left:3px solid #fc447c;margin-left:15px;">
+                        <h3>{{tipoDocumento.nombre}} #{{tipoDocumento.abreviacion}}</h3>
+                        <a href="{{ path('modificarDocumentoTipo', {'id': tipoDocumento.id}) }}">Modificar</a>
+                        <a href="{{ path('eliminarDocumentoTipo', {'id': tipoDocumento.id}) }}">Eliminar</a>
+                        <hr>
+                    </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% endif %}
             {% endfor %}
         </div>
     </div>

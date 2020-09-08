@@ -123,6 +123,11 @@ class DocumentoController extends AbstractController
             $this->testPalabrasClaves($documento->getPalabraClave(),$palabrasBD);
 
             $documento->setEstado('Alta');
+            //Para ver si se eligió fecha caducidad
+            if (!$documento->getAgregarFecha()){
+                $documento->setFechaCaducidad(null);
+            }
+
             $documento->setVistos(0);
             $documento->setFechaCreacion($fechaActual);
             $documento->setUser($this->getUser());
@@ -130,7 +135,7 @@ class DocumentoController extends AbstractController
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
             //Se crea en novedades la nueva novedad
-	    $this->addFlash('correcto', "Se cre� correctamente el documento");
+	    $this->addFlash('correcto', "Se cre� correctamente el documento");
             if ($documento->getPerfil()=="Público"){
                 $this->novedadIntranet($documento);
             }

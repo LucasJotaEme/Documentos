@@ -35,9 +35,11 @@ class Documento
     private $fechaPublicacion;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $fechaCaducidad;
+
+    private $agregarFecha;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -188,11 +190,19 @@ class Documento
         return $this->fechaCaducidad;
     }
 
-    public function setFechaCaducidad(\DateTimeInterface $fechaCaducidad): self
+    public function setFechaCaducidad($fechaCaducidad): self
     {
         $this->fechaCaducidad = $fechaCaducidad;
 
         return $this;
+    }
+
+    function getAgregarFecha() {
+        return $this->agregarFecha;
+    }
+
+    function setAgregarFecha($agregarFecha){
+        $this->agregarFecha = $agregarFecha;
     }
 
     public function getNumeroVersion(): ?int

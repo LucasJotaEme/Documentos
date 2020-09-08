@@ -44,6 +44,11 @@ class DocumentoTipo
      */
     private $Documento;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Grupo::class, inversedBy="tipoDocumento")
+     */
+    private $grupo;
+
     public function __construct()
     {
         $this->Documento = new ArrayCollection();
@@ -121,6 +126,18 @@ class DocumentoTipo
                 $documento->setDocumentoTipo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGrupo(): ?Grupo
+    {
+        return $this->grupo;
+    }
+
+    public function setGrupo(?Grupo $grupo): self
+    {
+        $this->grupo = $grupo;
 
         return $this;
     }

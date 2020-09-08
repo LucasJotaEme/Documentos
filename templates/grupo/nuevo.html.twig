@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Documentos - Nuevo grupo{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div>
+{{ form_start(formulario, {'enctype':'multipart/form-data'})}}
+    <div class="divFormulario bordeSombreado container">
+        <h2 style="color:#fc447c;">Nuevo grupo</h2>
+        <div style="margin-top: 20px;" class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <h5>Nombre del grupo:</h5>
+                </div>
+                <div class="col-sm-9">
+                    {{ form_widget(formulario.nombre, {attr: {class: 'form-control ancho', placeholder: 'Nombre..'} }) }}  
+                </div>
+        </div>
+        
+        {{ form_widget(formulario.Aceptar, {attr: {class: 'form-control ancho'} }) }}
+    </div>
+{{ form_end(formulario) }}
+    <div>
+    <div style="margin-top:15px;" class="bordeSombreado container">
+        <h3 style="text-align:center;color:#fc447c;">Grupos actuales</h3>
+        {% for grupo in grupos %}
+        <div class="divFormulario">
+            {{grupo.nombre}}
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+</div>
+{% endblock %}

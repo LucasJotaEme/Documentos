@@ -22,6 +22,8 @@
         </div>
     </div>
 </div>
+
+
 <div>
     <a class="btn btn-light bordeSombreado" style="color:#306086;" href="{{path('documentos')}}"><img src="{{ asset("svg/reply.svg") }}" alt="Imagen documento">Volver al menú</a>
     <div style="text-align:center;" class="container-fluid">
@@ -79,7 +81,13 @@
                 </div>
             </div>
 
-            <div style="margin-top: 20px;" class="form-group row">
+            <div style="text-align:center;" class="">
+                    <h5>Agregar fecha de caducidad</h5>
+                    {{ form_widget(formulario.agregarFecha, {attr: {class: 'form-control' , placeholder: 'Escriba el número de version..'} }) }}  
+                
+            </div>
+
+            <div id="fechaCaducidad" style="margin-top: 20px;" class="form-group row">
                 <div class="col-sm-3 col-form-label">
                     <h5>Fecha de caducidad:</h5>
                 </div>

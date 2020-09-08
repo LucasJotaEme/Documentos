@@ -352,6 +352,13 @@
         <argument type="service" id=".service_locator.pNNo5z3.App\Controller\FuncionesController"/>
       </call>
     </service>
+    <service id="App\Controller\GrupoController" class="App\Controller\GrupoController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.pNNo5z3.App\Controller\GrupoController"/>
+      </call>
+    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -384,6 +391,9 @@
     <service id="App\Form\DocumentoType" class="App\Form\DocumentoType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Form\GrupoType" class="App\Form\GrupoType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -392,6 +402,10 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\DocumentoTipoRepository" class="App\Repository\DocumentoTipoRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\GrupoRepository" class="App\Repository\GrupoRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -818,6 +832,7 @@
         <argument>App\Form\DocumentoModificarType</argument>
         <argument>App\Form\DocumentoTipoType</argument>
         <argument>App\Form\DocumentoType</argument>
+        <argument>App\Form\GrupoType</argument>
         <argument>App\Form\UserType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -1143,7 +1158,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id=".service_locator.vQ75CTu"/>
+      <argument type="service" id=".service_locator.ByhF.wW"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -3500,7 +3515,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id=".service_locator.EuDLpYe"/>
+      <argument type="service" id=".service_locator.EqumyhA"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -4758,6 +4773,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\FuncionesController" class="App\Controller\FuncionesController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\FuncionesController" class="App\Controller\FuncionesController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\FuncionesController" class="App\Controller\FuncionesController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\GrupoController" class="App\Controller\GrupoController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\GrupoController" class="App\Controller\GrupoController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\GrupoController" class="App\Controller\GrupoController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -4776,12 +4794,16 @@
     <service id=".abstract.instanceof.App\Form\DocumentoTipoType" class="App\Form\DocumentoTipoType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DocumentoType" class="App\Form\DocumentoType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\DocumentoType" class="App\Form\DocumentoType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GrupoType" class="App\Form\GrupoType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\GrupoType" class="App\Form\GrupoType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\UserType" class="App\Form\UserType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\UserType" class="App\Form\UserType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DocumentoRepository" class="App\Repository\DocumentoRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\DocumentoRepository" class="App\Repository\DocumentoRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DocumentoTipoRepository" class="App\Repository\DocumentoTipoRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\DocumentoTipoRepository" class="App\Repository\DocumentoTipoRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\GrupoRepository" class="App\Repository\GrupoRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\GrupoRepository" class="App\Repository\GrupoRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PalabraClaveRepository" class="App\Repository\PalabraClaveRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\PalabraClaveRepository" class="App\Repository\PalabraClaveRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
@@ -5084,7 +5106,7 @@
       <argument type="service" id="debug.argument_resolver.not_tagged_controller.inner"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.vQ75CTu" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.ByhF.wW" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\BusquedaTipoType" type="service" id="App\Form\BusquedaTipoType"/>
@@ -5093,6 +5115,7 @@
         <argument key="App\Form\DocumentoModificarType" type="service" id="App\Form\DocumentoModificarType"/>
         <argument key="App\Form\DocumentoTipoType" type="service" id="App\Form\DocumentoTipoType"/>
         <argument key="App\Form\DocumentoType" type="service" id="App\Form\DocumentoType"/>
+        <argument key="App\Form\GrupoType" type="service" id="App\Form\GrupoType"/>
         <argument key="App\Form\UserType" type="service" id="App\Form\UserType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service" id="form.type.entity"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service" id="form.type.choice"/>
@@ -5111,11 +5134,12 @@
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
       </argument>
     </service>
-    <service id=".service_locator.EuDLpYe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.EqumyhA" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\DocumentoRepository" type="service" id="App\Repository\DocumentoRepository"/>
         <argument key="App\Repository\DocumentoTipoRepository" type="service" id="App\Repository\DocumentoTipoRepository"/>
+        <argument key="App\Repository\GrupoRepository" type="service" id="App\Repository\GrupoRepository"/>
         <argument key="App\Repository\PalabraClaveRepository" type="service" id="App\Repository\PalabraClaveRepository"/>
         <argument key="App\Repository\UserRepository" type="service" id="App\Repository\UserRepository"/>
       </argument>
@@ -5331,6 +5355,12 @@
     <service id=".service_locator.pNNo5z3.App\Controller\FuncionesController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator_context" id="App\Controller\FuncionesController"/>
       <argument>App\Controller\FuncionesController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.pNNo5z3" method="withContext"/>
+    </service>
+    <service id=".service_locator.pNNo5z3.App\Controller\GrupoController" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator_context" id="App\Controller\GrupoController"/>
+      <argument>App\Controller\GrupoController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.pNNo5z3" method="withContext"/>
     </service>

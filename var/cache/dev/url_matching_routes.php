@@ -19,6 +19,7 @@ return [
         '/admin/tipoDocumentos' => [[['_route' => 'documentosTipo', '_controller' => 'App\\Controller\\DocumentoTipoController::index'], null, null, null, false, false, null]],
         '/admin/nuevoDocumentoTipo' => [[['_route' => 'nuevoDocumentoTipo', '_controller' => 'App\\Controller\\DocumentoTipoController::nuevoDocumentoTipo'], null, null, null, false, false, null]],
         '/back' => [[['_route' => 'backIntranet', '_controller' => 'App\\Controller\\FuncionesController::backIntranet'], null, null, null, false, false, null]],
+        '/admin/nuevoGrupo' => [[['_route' => 'nuevoGrupo', '_controller' => 'App\\Controller\\GrupoController::nuevoGrupo'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\SecurityController::login'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\SecurityController::logout'], null, null, null, false, false, null]],
         '/admin/usuarios' => [[['_route' => 'usuarios', '_controller' => 'App\\Controller\\UsuarioController::usuarios'], null, null, null, false, false, null]],

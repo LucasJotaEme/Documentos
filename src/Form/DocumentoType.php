@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\DocumentoTipo;
@@ -31,6 +32,7 @@ class DocumentoType extends AbstractType
             ->add('numero', TextType::class)
             ->add('anio')
             ->add('fechaPublicacion')
+            ->add('agregarFecha',CheckBoxType::class)
             ->add('fechaCaducidad')
             ->add('numeroVersion')
             ->add('palabraClave', TextType::class)
