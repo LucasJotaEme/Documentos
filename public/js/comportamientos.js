@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#documento_fechaPublicacion_date').datetimepicker({
+    $('#documento_fechaPublicacion').datetimepicker({
     language:  'es',
     todayBtn:  1,
     autoclose: 1,

@@ -36,6 +36,14 @@
     <h4 style="margin-top:10px;color:grey;">DATOS</h4>
         <div style="margin-top: 20px;" class="form-group row">
                 <div class="col-sm-3 col-form-label">
+                    <h5>Grupo:</h5>
+                </div>
+                <div class="col-sm-9">
+                    {{ form_widget(formulario.grupo, {attr: {class: 'form-control' , placeholder: 'Escriba el número del documento..'} }) }}  
+                </div>
+        </div>
+        <div style="margin-top: 20px;" class="form-group row">
+                <div class="col-sm-3 col-form-label">
                     <h5>Tipo:</h5>
                 </div>
                 <div class="col-sm-9">
@@ -177,4 +185,5 @@
     {{ form_end(formulario) }}
 </div>
 {% endblock %}
+
 

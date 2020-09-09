@@ -111,7 +111,7 @@ class DocumentoController extends AbstractController
         $formulario->handleRequest($request);
         $documento = $formulario->getData();
 
-        if ($formulario->isSubmitted() && $this->validarDocumento($documento)){
+        if ($formulario->isSubmitted() && $formulario->isValid() && $this->validarDocumento($documento)){
             
             $extensionArchivo=$documento->getPath()->guessExtension();
             $nombreArchivo= time().".".$extensionArchivo;
@@ -135,16 +135,13 @@ class DocumentoController extends AbstractController
             $entityManager->flush();
             $this->crearLog($documento,'Nuevo');
             //Se crea en novedades la nueva novedad
-<<<<<<< HEAD
-	    $this->addFlash('correcto', "Se cre� correctamente el documento");
-=======
->>>>>>> dfd16b9318839625dbe91028f1cd3ffde1f2d962
+	    $this->addFlash('correcto', "Se creó correctamente el documento");
             if ($documento->getPerfil()=="Público"){
 	        $url ="http://intranet.unraf.edu.ar/Intranet/public/index.php/novedad/" .$documento->getFechaPublicacion()->format('d-m-Y H:i:s')."/".$documento->getNumero()."/".$documento->getTitulo()."/".$this->getUser()->getEmail();
         	//$this->addFlash('correcto', $url);
         	return $this->redirect($url);
             }
-	    //$this->addFlash('correcto', "Se cre� correctamente el documento");
+	    //$this->addFlash('correcto', "Se cre� correctamente el documento");
             return $this->redirectToRoute('documentos');
         }
         else{

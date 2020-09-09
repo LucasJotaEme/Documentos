@@ -5,13 +5,8 @@
 
 use Symfony\Component\DependencyInjection\Dumper\Preloader;
 
-<<<<<<< HEAD
 require dirname(__DIR__, 3).'\\vendor/autoload.php';
-require __DIR__.'/ContainerSZemKTT/App_KernelDevDebugContainer.php';
-=======
-require dirname(__DIR__, 3).'/vendor/autoload.php';
-require __DIR__.'/ContainerBQiSDvK/App_KernelDevDebugContainer.php';
->>>>>>> dfd16b9318839625dbe91028f1cd3ffde1f2d962
+require __DIR__.'/ContainerAxz66RI/App_KernelDevDebugContainer.php';
 
 $classes = [];
 $classes[] = 'Symfony\Bundle\FrameworkBundle\FrameworkBundle';
@@ -37,6 +32,7 @@ $classes[] = 'App\Controller\FuncionesController';
 $classes[] = 'App\Controller\GrupoController';
 $classes[] = 'App\Controller\SecurityController';
 $classes[] = 'App\Controller\UsuarioController';
+$classes[] = 'App\Form\AddTipoFieldSubscriber';
 $classes[] = 'App\Form\BusquedaTipoType';
 $classes[] = 'App\Form\BusquedaType';
 $classes[] = 'App\Form\BusquedaUserType';

@@ -29,9 +29,15 @@ class Grupo
      */
     private $tipoDocumento;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Documento::class, mappedBy="grupo")
+     */
+    private $documentos;
+
     public function __construct()
     {
         $this->tipoDocumento = new ArrayCollection();
+        $this->documentos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,37 @@ class Grupo
             // set the owning side to null (unless already changed)
             if ($tipoDocumento->getGrupo() === $this) {
                 $tipoDocumento->setGrupo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Documento[]
+     */
+    public function getDocumentos(): Collection
+    {
+        return $this->documentos;
+    }
+
+    public function addDocumento(Documento $documento): self
+    {
+        if (!$this->documentos->contains($documento)) {
+            $this->documentos[] = $documento;
+            $documento->setGrupo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocumento(Documento $documento): self
+    {
+        if ($this->documentos->contains($documento)) {
+            $this->documentos->removeElement($documento);
+            // set the owning side to null (unless already changed)
+            if ($documento->getGrupo() === $this) {
+                $documento->setGrupo(null);
             }
         }
 

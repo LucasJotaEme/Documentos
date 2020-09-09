@@ -136,6 +136,11 @@ class Documento
      */
     private $rolString;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Grupo::class, inversedBy="documentos")
+     */
+    private $grupo;
+
 
     public function __construct()
     {
@@ -428,6 +433,18 @@ class Documento
     public function setRolString(?string $rolString): self
     {
         $this->rolString = $rolString;
+
+        return $this;
+    }
+
+    public function getGrupo(): ?Grupo
+    {
+        return $this->grupo;
+    }
+
+    public function setGrupo(?Grupo $grupo): self
+    {
+        $this->grupo = $grupo;
 
         return $this;
     }

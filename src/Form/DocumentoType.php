@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\DocumentoTipo;
+use App\Entity\Grupo;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityRepository;
 
 class DocumentoType extends AbstractType
@@ -21,11 +23,18 @@ class DocumentoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('grupo', EntityType::class, [
+            'class' => Grupo::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('g')
+                    ->add('where', "g.nombre = 'Seleccionar..'");
+                },
+            'choice_label' => 'nombre',])
             ->add('documentoTipo', EntityType::class, [
                 'class' => DocumentoTipo::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('dt')
-                        ->add('where', "dt.estado = 'Alta'");
+                        ->add('where', "dt.nombre = 'Seleccionar..'");
                     },
                 'choice_label' => 'nombre'])
             
@@ -48,6 +57,7 @@ class DocumentoType extends AbstractType
             ])
             ->add('Grabar',SubmitType::class)
         ;
+        $builder->addEventSubscriber(new AddTipoFieldSubscriber());
         
         }
 
